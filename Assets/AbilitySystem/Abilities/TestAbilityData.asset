@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653ff2511ab16874c8bac36ea4302f70, type: 3}
+  m_Name: TestAbilityData
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityData
+  Label: TestAbility
+  VFXProjectile: {fileID: 2151109202473331064, guid: 910579916d944f845b3fecfa6cea5a71, type: 3}
+  VFXOvertime: {fileID: 7744441545125806789, guid: 62b698f91db29314aa9d08c3fc3106a6, type: 3}
+  CastTime: 1
+  CastAnimation: {fileID: 0}
+  Effects:
+  - rid: 9056268367476818314
+  - rid: 9056268367476818317
+  - rid: 9056268367476818409
+  references:
+    version: 2
+    RefIds:
+    - rid: 9056268367476818314
+      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        Amount: 10
+    - rid: 9056268367476818317
+      type: {class: KnockbackEffect, ns: , asm: Assembly-CSharp}
+      data:
+        Force: 10
+    - rid: 9056268367476818409
+      type: {class: DamageEffectOvertime, ns: , asm: Assembly-CSharp}
+      data:
+        Duration: 5
+        TickInterval: 1
+        AmountPerTick: 2
