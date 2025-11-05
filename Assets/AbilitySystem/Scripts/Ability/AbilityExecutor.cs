@@ -1,52 +1,37 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(TargetingManager))]
 public class AbilityExecutor : MonoBehaviour
 {
     [SerializeField] private AbilityData _ability;
     [SerializeField] private Enemy _target;
     [SerializeField] private AnimationController _animationController;
 
+    private TargetingManager _targetingManager;
     private CountdownTimer _castTimer;
 
     private void Awake()
     {
         _animationController = GetComponent<AnimationController>();
+        _targetingManager = GetComponent<TargetingManager>();
 
         _castTimer = new CountdownTimer(_ability.CastTime);
 
         _castTimer.OnTimerStart = () => _animationController.PlayOneShot(_ability.CastAnimation);
-        _castTimer.OnTimerStop = () => Cast(_ability, _target);
+        _castTimer.OnTimerStop = () => Cast(_ability);
     }
 
-    private void Cast(AbilityData ability, IDamageable target)
+    private void Cast(AbilityData ability)
     {
-        var targetMb = target as MonoBehaviour;
+        // start the targeting process
+        ability.Target(_targetingManager);
 
-        if (ability.VFXProjectile && targetMb)
-        {
-            var projectileVFX = Instantiate(_ability.VFXProjectile, transform.position, transform.rotation);
-
-            projectileVFX.SetTriggerCallback(co =>
-            {
-                _ability.Execute(this.gameObject, _target);
-                if (ability.VFXOvertime)
-                {
-                    var overtimeVFX = Instantiate(_ability.VFXOvertime, targetMb.transform.position, Quaternion.identity, targetMb.transform);
-                    Destroy(overtimeVFX, 3f);
-                }
-            });
-        }
-        else if (ability.VFXOvertime && targetMb)
-        {
-            _ability.Execute(this.gameObject, _target);
-            if (ability.VFXOvertime)
-            {
-                var overtimeVFX = Instantiate(_ability.VFXProjectile, targetMb.transform.position, Quaternion.identity, targetMb.transform);
-                Destroy(overtimeVFX, 3f);
-            }
-        }
+        // play cast animation in loop
+        // play casting sfx and vfx if any
     }
+
+
 
     public void Execute()
     {

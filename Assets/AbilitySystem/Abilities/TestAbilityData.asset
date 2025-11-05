@@ -18,23 +18,28 @@ MonoBehaviour:
   CastTime: 1
   CastAnimation: {fileID: 0}
   Effects:
-  - rid: 9056268367476818314
-  - rid: 9056268367476818317
-  - rid: 9056268367476818409
+  - rid: 9056268372935704706
+  - rid: 9056268372935704707
+  TargetingStrategy:
+    rid: 9056268372935704747
   references:
     version: 2
     RefIds:
-    - rid: 9056268367476818314
-      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
-      data:
-        Amount: 10
-    - rid: 9056268367476818317
-      type: {class: KnockbackEffect, ns: , asm: Assembly-CSharp}
-      data:
-        Force: 10
-    - rid: 9056268367476818409
-      type: {class: DamageEffectOvertime, ns: , asm: Assembly-CSharp}
+    - rid: 9056268372935704706
+      type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
       data:
         Duration: 5
         TickInterval: 1
-        AmountPerTick: 2
+        AmountPerTick: 10
+    - rid: 9056268372935704707
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        DamageAmount: 10
+    - rid: 9056268372935704747
+      type: {class: AOETargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AOEPrefab: {fileID: 8783323721376608979, guid: afa8e7535a517a744ba31c22d62ddfee, type: 3}
+        AOERadius: 5
+        GroundLayer:
+          serializedVersion: 2
+          m_Bits: 64

@@ -17,24 +17,48 @@ public class AbilityData : ScriptableObject
     [Range(0f, 5f)] public float CastTime = 1f;
 
     public AnimationClip CastAnimation;
-    [SerializeReference] public List<IEffect<IDamageable>> Effects;
+
+    [Header("Effects")]
+    [SerializeReference] public List<IEffectFactory<IDamageable>> Effects;
+
+    [Header("Targeting")]
+    [SerializeReference] public TargetingStrategy TargetingStrategy;
 
     private void OnEnable()
     {
         if (string.IsNullOrEmpty(Label))
             Label = name;
 
-        Effects ??= new List<IEffect<IDamageable>>();
+        Effects ??= new List<IEffectFactory<IDamageable>>();
     }
 
     public void Execute(GameObject caster, IDamageable target)
     {
-        foreach (IEffect<IDamageable> effect in Effects)
+        HandleVFX(caster, target);
+
+        foreach (var effect in Effects)
         {
-            if (target is Enemy enemy)
-                enemy.ApplyEffect(caster, effect);
-            else
-                effect.Apply(caster, target);
+            var runtimeEffect = effect.Create();
+            target.ApplyEffect(caster, runtimeEffect);
+        }
+    }
+
+    public void Target(TargetingManager targetingManager)
+    {
+        TargetingStrategy?.Start(this, targetingManager);
+    }
+
+    public void HandleVFX(GameObject caster, IDamageable target)
+    {
+        var targetMb = target as MonoBehaviour;
+
+        if (!targetMb)
+            return;
+
+        if (VFXOvertime)
+        {
+            var overtimeVFX = Instantiate(VFXOvertime, targetMb.transform.position, Quaternion.identity, targetMb.transform);
+            Destroy(overtimeVFX, 3f);
         }
     }
 }

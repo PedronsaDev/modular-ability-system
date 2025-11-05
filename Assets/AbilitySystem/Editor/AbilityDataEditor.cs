@@ -15,9 +15,11 @@ public class AbilityDataEditor : Editor
     private SerializedProperty _castTimeProp;
     private SerializedProperty _castAnimProp;
     private SerializedProperty _effectsProp;
+    private SerializedProperty _targetingProp;
 
     private VisualElement _root;
     private VisualElement _effectsListContainer;
+    private VisualElement _targetingContainer;
 
     public override VisualElement CreateInspectorGUI()
     {
@@ -29,6 +31,7 @@ public class AbilityDataEditor : Editor
         _castTimeProp = serializedObject.FindProperty("CastTime");
         _castAnimProp = serializedObject.FindProperty("CastAnimation");
         _effectsProp = serializedObject.FindProperty("Effects");
+        _targetingProp = serializedObject.FindProperty("TargetingStrategy");
 
         _root = new VisualElement();
 
@@ -65,10 +68,178 @@ public class AbilityDataEditor : Editor
         _effectsListContainer = new VisualElement { style = { flexDirection = FlexDirection.Column } };
         _root.Add(_effectsListContainer);
 
+        // Targeting Strategy header with Add/Change/Clear button
+        var targetingHeader = new VisualElement
+        {
+            style =
+            {
+                flexDirection = FlexDirection.Row,
+                justifyContent = Justify.SpaceBetween,
+                alignItems = Align.Center,
+                marginTop = 8,
+                marginBottom = 4
+            }
+        };
+        var targetingLabel = new Label("Targeting Strategy") { style = { unityFontStyleAndWeight = FontStyle.Bold } };
+        targetingHeader.Add(targetingLabel);
+
+        var targetingButtons = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+        var targetingAddOrChangeBtn = new Button { text = "Set" };
+        targetingAddOrChangeBtn.clicked += () =>
+        {
+            var rect = targetingAddOrChangeBtn.worldBound;
+            if (string.IsNullOrEmpty(_targetingProp.managedReferenceFullTypename))
+                ShowTargetingAddMenu(rect);
+            else
+                ShowTargetingChangeMenu(rect);
+        };
+        targetingButtons.Add(targetingAddOrChangeBtn);
+
+        var targetingClearBtn = new Button { text = "Clear", tooltip = "Remove targeting strategy" };
+        targetingClearBtn.clicked += ClearTargeting;
+        targetingButtons.Add(targetingClearBtn);
+
+        targetingHeader.Add(targetingButtons);
+        _root.Add(targetingHeader);
+
+        // Targeting body
+        _targetingContainer = new VisualElement { style = { flexDirection = FlexDirection.Column } };
+        _root.Add(_targetingContainer);
+
+        RebuildTargetingSection();
         RebuildEffectsList();
 
         _root.Bind(serializedObject);
         return _root;
+    }
+
+    private void RebuildTargetingSection()
+    {
+        _targetingContainer.Clear();
+        serializedObject.Update();
+        _targetingProp ??= serializedObject.FindProperty("TargetingStrategy");
+        if (_targetingProp == null) return;
+
+        if (string.IsNullOrEmpty(_targetingProp.managedReferenceFullTypename))
+        {
+            var empty = new Label("None")
+            {
+                style =
+                {
+                    color = new Color(0.6f, 0.6f, 0.6f),
+                    marginLeft = 4
+                }
+            };
+            _targetingContainer.Add(empty);
+            return;
+        }
+
+        // Draw a bordered box similar to effects items
+        var box = new VisualElement
+        {
+            style =
+            {
+                borderTopColor = new Color(0, 0, 0, 0.25f),
+                borderBottomColor = new Color(0, 0, 0, 0.25f),
+                borderLeftColor = new Color(0, 0, 0, 0.25f),
+                borderRightColor = new Color(0, 0, 0, 0.25f),
+                borderTopWidth = 1,
+                borderBottomWidth = 1,
+                borderLeftWidth = 1,
+                borderRightWidth = 1,
+                paddingLeft = 6,
+                paddingRight = 6,
+                paddingTop = 4,
+                paddingBottom = 6,
+                marginBottom = 2
+            }
+        };
+
+        var header = new VisualElement
+        {
+            style =
+            {
+                flexDirection = FlexDirection.Row,
+                justifyContent = Justify.SpaceBetween,
+                alignItems = Align.Center
+            }
+        };
+
+        var title = new Label(GetTypeDisplayName(_targetingProp)) { style = { unityFontStyleAndWeight = FontStyle.Bold } };
+        header.Add(title);
+
+        var headerButtons = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+        var changeBtn = new Button(() => ShowTargetingChangeMenu(header.worldBound)) { text = "Type", tooltip = "Change targeting type" };
+        var clearBtn = new Button(ClearTargeting) { text = "✕", tooltip = "Remove" };
+        headerButtons.Add(changeBtn);
+        headerButtons.Add(clearBtn);
+        header.Add(headerButtons);
+        box.Add(header);
+
+        var body = new VisualElement { style = { marginTop = 4 } };
+        var field = new PropertyField(_targetingProp) { name = "targeting_fields" };
+        field.Bind(serializedObject);
+        body.Add(field);
+        box.Add(body);
+
+        _targetingContainer.Add(box);
+    }
+
+    private void ShowTargetingAddMenu(Rect buttonRect)
+    {
+        var types = GetTargetingTypes();
+        var menu = new GenericMenu();
+
+        if (types.Count == 0)
+        {
+            menu.AddDisabledItem(new GUIContent("No TargetingStrategy types found"));
+        }
+        else
+        {
+            foreach (var t in types)
+            {
+                var nice = t.Name;
+                menu.AddItem(new GUIContent(nice), false, () => SetTargeting(t));
+            }
+        }
+
+        menu.DropDown(buttonRect);
+    }
+
+    private void ShowTargetingChangeMenu(Rect buttonRect)
+    {
+        var types = GetTargetingTypes();
+        var menu = new GenericMenu();
+        foreach (var t in types)
+        {
+            var nice = t.Name;
+            menu.AddItem(new GUIContent(nice), false, () => SetTargeting(t));
+        }
+        menu.DropDown(buttonRect);
+    }
+
+    private void SetTargeting(Type type)
+    {
+        serializedObject.Update();
+        Undo.RecordObject(target, "Set Targeting Strategy");
+        _targetingProp ??= serializedObject.FindProperty("TargetingStrategy");
+        if (_targetingProp == null) return;
+
+        _targetingProp.managedReferenceValue = Activator.CreateInstance(type);
+        _targetingProp.isExpanded = true;
+        serializedObject.ApplyModifiedProperties();
+        RebuildTargetingSection();
+    }
+
+    private void ClearTargeting()
+    {
+        serializedObject.Update();
+        Undo.RecordObject(target, "Clear Targeting Strategy");
+        _targetingProp ??= serializedObject.FindProperty("TargetingStrategy");
+        if (_targetingProp == null) return;
+        _targetingProp.managedReferenceValue = null;
+        serializedObject.ApplyModifiedProperties();
+        RebuildTargetingSection();
     }
 
     private void RebuildEffectsList()
@@ -138,7 +309,7 @@ public class AbilityDataEditor : Editor
             var upBtn = new Button(() => MoveEffect(index, -1)) { text = "▲", tooltip = "Move up" };
             var downBtn = new Button(() => MoveEffect(index, +1)) { text = "▼", tooltip = "Move down" };
             var changeBtn = new Button(() => ShowChangeTypeMenu(index, header.worldBound)) { text = "Type", tooltip = "Change effect type" };
-            var duplicateBtn = new Button(() => DuplicateEffect(index)) { text = "⎘", tooltip = "Duplicate" };
+            var duplicateBtn = new Button(() => DuplicateEffect(index)) { text = "◳", tooltip = "Duplicate" };
             var removeBtn = new Button(() => RemoveEffect(index)) { text = "✕", tooltip = "Remove" };
 
             headerButtons.Add(upBtn);
@@ -168,7 +339,7 @@ public class AbilityDataEditor : Editor
 
         if (types.Count == 0)
         {
-            menu.AddDisabledItem(new GUIContent("No IEffect<IDamageable> types found"));
+            menu.AddDisabledItem(new GUIContent("No IEffectFactory<IDamageable> types found"));
         }
         else
         {
@@ -286,8 +457,16 @@ public class AbilityDataEditor : Editor
 
     private static List<Type> GetEffectTypes()
     {
-        // Grab types that implement the closed generic interface IEffect<IDamageable>
-        var derived = TypeCache.GetTypesDerivedFrom<IEffect<IDamageable>>();
+        // Grab types that implement the closed generic interface <IEffectFactory<IDamageable>>
+        var derived = TypeCache.GetTypesDerivedFrom<IEffectFactory<IDamageable>>();
+        return derived.Where(t => !t.IsAbstract && t.IsClass)
+            .OrderBy(t => t.Name)
+            .ToList();
+    }
+
+    private static List<Type> GetTargetingTypes()
+    {
+        var derived = TypeCache.GetTypesDerivedFrom<TargetingStrategy>();
         return derived.Where(t => !t.IsAbstract && t.IsClass)
             .OrderBy(t => t.Name)
             .ToList();
