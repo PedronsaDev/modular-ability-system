@@ -1,13 +1,28 @@
 ﻿using System;
 using UnityEngine;
+
 [Serializable]
-public class KnockbackEffect : IEffect<IDamageable>
+public class KnockbackEffectFactory : IEffectFactory<IDamageable>
 {
-    public int Force = 10;
+    public float Force = 10f;
+
+    public IEffect<IDamageable> Create()
+    {
+        return new KnockbackEffect
+        {
+            Force = this.Force
+        };
+    }
+}
+
+[Serializable]
+public struct KnockbackEffect : IEffect<IDamageable>
+{
+    public float Force;
 
     public event Action<IEffect<IDamageable>> OnCompleted;
 
-    public void Apply(GameObject caster ,IDamageable target)
+    public void Apply(GameObject caster, IDamageable target)
     {
         var targetTransform = (target as MonoBehaviour)?.gameObject.transform;
 

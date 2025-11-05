@@ -27,10 +27,7 @@ public class AOETargeting : TargetingStrategy
             _previewAOEInstance = UnityEngine.Object.Instantiate(AOEPrefab, Vector3.zero + new Vector3(0f, 0.1f, 0f), Quaternion.identity);
 
         if (this.TargetingManager.Input)
-        {
-            Debug.Log("Registering Click Event");
             TargetingManager.ClickAction.performed += OnClickPerformed;
-        }
     }
 
     public override void Update()
@@ -69,7 +66,6 @@ public class AOETargeting : TargetingStrategy
 
     private void OnClickPerformed(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log("aaaaaaaaaa");
         if (_isTargeting)
         {
             var mousePosition = Mouse.current.position.ReadValue();

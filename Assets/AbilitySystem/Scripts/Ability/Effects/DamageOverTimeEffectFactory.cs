@@ -1,54 +1,12 @@
 using System;
 using UnityEngine;
 
-public interface IEffect<in TTarget>
-{
-    void Apply(GameObject caster,TTarget target);
-    void Cancel();
-    event Action<IEffect<TTarget>> OnCompleted;
-}
-
-public interface IEffectFactory<in TTarget>
-{
-    IEffect<TTarget> Create();
-}
-
-[Serializable]
-public class DamageEffectFactory : IEffectFactory<IDamageable>
-{
-    public int DamageAmount = 10;
-
-    public IEffect<IDamageable> Create()
-    {
-        return new DamageEffect {DamageAmount = this.DamageAmount};
-    }
-}
-
-[Serializable]
-public struct DamageEffect : IEffect<IDamageable>
-{
-    public int DamageAmount;
-
-    public event Action<IEffect<IDamageable>> OnCompleted;
-
-    public void Apply(GameObject caster ,IDamageable target)
-    {
-        target.TakeDamage(DamageAmount);
-        OnCompleted?.Invoke(this);
-    }
-
-    public void Cancel()
-    {
-        OnCompleted?.Invoke(this);
-    }
-}
-
 [Serializable]
 public class DamageOverTimeEffectFactory : IEffectFactory<IDamageable>
 {
     public float Duration = 5f;
     public float TickInterval = 1f;
-    public int AmountPerTick = 10;
+    public int DamageAmountPerTick = 10;
 
     public IEffect<IDamageable> Create()
     {
@@ -56,11 +14,10 @@ public class DamageOverTimeEffectFactory : IEffectFactory<IDamageable>
         {
             Duration = this.Duration,
             TickInterval = this.TickInterval,
-            AmountPerTick = this.AmountPerTick
+            AmountPerTick = this.DamageAmountPerTick
         };
     }
 }
-
 
 [Serializable]
 public struct DamageEffectOvertime : IEffect<IDamageable>

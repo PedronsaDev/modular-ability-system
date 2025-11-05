@@ -9,10 +9,13 @@ using UnityEngine.UIElements;
 [CustomEditor(typeof(AbilityData))]
 public class AbilityDataEditor : Editor
 {
+    private SerializedProperty _iconProp;
     private SerializedProperty _labelProp;
-    private SerializedProperty _vfxProjectileProp;
+    private SerializedProperty _descriptionProp;
+    private SerializedProperty _vfxProjectileControllerProp;
     private SerializedProperty _vfxOvertimeProp;
     private SerializedProperty _castTimeProp;
+    private SerializedProperty _cooldownTimeProp;
     private SerializedProperty _castAnimProp;
     private SerializedProperty _effectsProp;
     private SerializedProperty _targetingProp;
@@ -20,26 +23,72 @@ public class AbilityDataEditor : Editor
     private VisualElement _root;
     private VisualElement _effectsListContainer;
     private VisualElement _targetingContainer;
+    private Image _iconPreview;
 
     public override VisualElement CreateInspectorGUI()
     {
         serializedObject.Update();
 
+        _iconProp = serializedObject.FindProperty("Icon");
         _labelProp = serializedObject.FindProperty("Label");
-        _vfxProjectileProp = serializedObject.FindProperty("VFXProjectile");
+        _descriptionProp = serializedObject.FindProperty("Description");
+        _vfxProjectileControllerProp = serializedObject.FindProperty("VFXProjectileController");
         _vfxOvertimeProp = serializedObject.FindProperty("VFXOvertime");
         _castTimeProp = serializedObject.FindProperty("CastTime");
+        _cooldownTimeProp = serializedObject.FindProperty("CooldownTime");
         _castAnimProp = serializedObject.FindProperty("CastAnimation");
         _effectsProp = serializedObject.FindProperty("Effects");
         _targetingProp = serializedObject.FindProperty("TargetingStrategy");
 
         _root = new VisualElement();
 
+        // Icon field + preview row
+        var iconRow = new VisualElement
+        {
+            style =
+            {
+                flexDirection = FlexDirection.Row,
+                alignItems = Align.Center,
+                marginBottom = 4
+            }
+        };
+
+        var iconField = new ObjectField("Icon") { objectType = typeof(Sprite) };
+        iconField.BindProperty(_iconProp);
+        iconField.style.flexGrow = 1f;
+        iconField.RegisterValueChangedCallback(_ => RefreshIconPreview());
+        iconRow.Add(iconField);
+
+        _iconPreview = new Image
+        {
+            scaleMode = ScaleMode.ScaleToFit,
+            image = null,
+            style =
+            {
+                width = 64,
+                height = 64,
+                marginLeft = 8,
+                marginRight = 2,
+                borderTopColor = new Color(0, 0, 0, 0.25f),
+                borderBottomColor = new Color(0, 0, 0, 0.25f),
+                borderLeftColor = new Color(0, 0, 0, 0.25f),
+                borderRightColor = new Color(0, 0, 0, 0.25f),
+                borderTopWidth = 1,
+                borderBottomWidth = 1,
+                borderLeftWidth = 1,
+                borderRightWidth = 1
+            }
+        };
+        iconRow.Add(_iconPreview);
+        _root.Add(iconRow);
+
         // Core fields
         _root.Add(new PropertyField(_labelProp, "Label") { tooltip = "Friendly name shown in tools" });
-        _root.Add(new PropertyField(_vfxProjectileProp, "VFX Projectile"));
+        _root.Add(new PropertyField(_descriptionProp, "Description"));
+        _root.Add(new PropertyField(_vfxProjectileControllerProp, "VFX Projectile"));
         _root.Add(new PropertyField(_vfxOvertimeProp, "VFX Overtime"));
         _root.Add(new PropertyField(_castTimeProp, "Cast Time"));
+        _root.Add(new PropertyField(_cooldownTimeProp, "Cooldown Time"));
         _root.Add(new PropertyField(_castAnimProp, "Cast Animation"));
 
         // Effects header with Add button
@@ -110,7 +159,16 @@ public class AbilityDataEditor : Editor
         RebuildEffectsList();
 
         _root.Bind(serializedObject);
+        RefreshIconPreview();
         return _root;
+    }
+
+    private void RefreshIconPreview()
+    {
+        // Try to reflect current sprite into the preview image
+        _iconProp ??= serializedObject.FindProperty("Icon");
+        var sprite = _iconProp?.objectReferenceValue as Sprite;
+        _iconPreview.image = sprite ? sprite.texture : null;
     }
 
     private void RebuildTargetingSection()

@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
-    public int Health = 50;
+    public float Health = 50;
 
     readonly List<IEffect<IDamageable>> _activeEffects = new List<IEffect<IDamageable>>();
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         Health -= damage;
         if (Health <= 0)
