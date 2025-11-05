@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
+    [SerializeField] private GameObject _damagePopupPrefab;
     public float Health = 50;
 
     readonly List<IEffect<IDamageable>> _activeEffects = new List<IEffect<IDamageable>>();
@@ -12,6 +13,17 @@ public class Enemy : MonoBehaviour, IDamageable
         Health -= damage;
         if (Health <= 0)
             Die();
+
+        if (_damagePopupPrefab)
+            ShowDamagePopup(damage);
+    }
+    private void ShowDamagePopup(float damage)
+    {
+        GameObject popup = Instantiate(_damagePopupPrefab, transform.position + Vector3.up * 2, Quaternion.identity);
+
+        DamagePopup damagePopup = popup.GetComponent<DamagePopup>();
+        if (damagePopup)
+            damagePopup.SetDamage(damage);
     }
 
     public void ApplyEffect(GameObject caster, IEffect<IDamageable> effect)

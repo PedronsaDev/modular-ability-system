@@ -12,8 +12,7 @@ public class AbilityDataEditor : Editor
     private SerializedProperty _iconProp;
     private SerializedProperty _labelProp;
     private SerializedProperty _descriptionProp;
-    private SerializedProperty _vfxProjectileControllerProp;
-    private SerializedProperty _vfxOvertimeProp;
+    private SerializedProperty _vfxApply;
     private SerializedProperty _castTimeProp;
     private SerializedProperty _cooldownTimeProp;
     private SerializedProperty _castAnimProp;
@@ -32,8 +31,7 @@ public class AbilityDataEditor : Editor
         _iconProp = serializedObject.FindProperty("Icon");
         _labelProp = serializedObject.FindProperty("Label");
         _descriptionProp = serializedObject.FindProperty("Description");
-        _vfxProjectileControllerProp = serializedObject.FindProperty("VFXProjectileController");
-        _vfxOvertimeProp = serializedObject.FindProperty("VFXOvertime");
+        _vfxApply = serializedObject.FindProperty("VFXApply");
         _castTimeProp = serializedObject.FindProperty("CastTime");
         _cooldownTimeProp = serializedObject.FindProperty("CooldownTime");
         _castAnimProp = serializedObject.FindProperty("CastAnimation");
@@ -85,10 +83,9 @@ public class AbilityDataEditor : Editor
         // Core fields
         _root.Add(new PropertyField(_labelProp, "Label") { tooltip = "Friendly name shown in tools" });
         _root.Add(new PropertyField(_descriptionProp, "Description"));
-        _root.Add(new PropertyField(_vfxProjectileControllerProp, "VFX Projectile"));
-        _root.Add(new PropertyField(_vfxOvertimeProp, "VFX Overtime"));
         _root.Add(new PropertyField(_castTimeProp, "Cast Time"));
         _root.Add(new PropertyField(_cooldownTimeProp, "Cooldown Time"));
+        _root.Add(new PropertyField(_vfxApply, "Apply VFX"));
         _root.Add(new PropertyField(_castAnimProp, "Cast Animation"));
 
         // Effects header with Add button

@@ -15,8 +15,7 @@ MonoBehaviour:
   Icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   Label: Meteor Shower
   Description: 
-  VFXProjectileController: {fileID: 0}
-  VFXOvertime: {fileID: 7744441545125806789, guid: 62b698f91db29314aa9d08c3fc3106a6, type: 3}
+  VFXApply: {fileID: 7744441545125806789, guid: 62b698f91db29314aa9d08c3fc3106a6, type: 3}
   CastTime: 0
   CooldownTime: 1
   CastAnimation: {fileID: 0}
@@ -24,7 +23,7 @@ MonoBehaviour:
   - rid: 9056268372935704706
   - rid: 9056268372935704707
   TargetingStrategy:
-    rid: 9056268389845827767
+    rid: 9056268389845828035
   references:
     version: 2
     RefIds:
@@ -38,6 +37,11 @@ MonoBehaviour:
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
         DamageAmount: 10
-    - rid: 9056268389845827767
-      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: 9056268389845828035
+      type: {class: AOETargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AOEPrefab: {fileID: 8783323721376608979, guid: afa8e7535a517a744ba31c22d62ddfee, type: 3}
+        AOERadius: 10
+        GroundLayer:
+          serializedVersion: 2
+          m_Bits: 64

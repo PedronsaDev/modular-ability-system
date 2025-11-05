@@ -929,7 +929,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1864,6 +1864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 274204fcd216b4944b833e63ea7c8830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  _damagePopupPrefab: {fileID: 857100182587829505, guid: a77182e99e8db5345b47cd8818f4b960, type: 3}
   Health: 50
 --- !u!136 &1515070439
 CapsuleCollider:

@@ -13,11 +13,8 @@ public class AbilityData : ScriptableObject
     [Tooltip("The description of the ability that will be displayed in the UI"), TextArea]
     public string Description;
 
-    [Tooltip("The projectile prefab to spawn when the ability is used. Leave null if no projectile is needed")]
-    public ProjectileController VFXProjectileController;
-
-    [Tooltip("The overtime effect prefab to spawn on the target when the ability is used. Leave null if no overtime effect is needed")]
-    public GameObject VFXOvertime;
+    [Tooltip("The effect prefab to spawn on the target when the ability is used.")]
+    public GameObject VFXApply;
 
     [Tooltip("Time in seconds required to cast the ability")]
     [Range(0f, 5f)] public float CastTime = 1f;
@@ -64,9 +61,9 @@ public class AbilityData : ScriptableObject
         if (!targetMb)
             return;
 
-        if (VFXOvertime)
+        if (VFXApply)
         {
-            var overtimeVFX = Instantiate(VFXOvertime, targetMb.transform.position, Quaternion.identity, targetMb.transform);
+            var overtimeVFX = Instantiate(VFXApply, targetMb.transform.position, Quaternion.identity, targetMb.transform);
             Destroy(overtimeVFX, 3f);
         }
     }
