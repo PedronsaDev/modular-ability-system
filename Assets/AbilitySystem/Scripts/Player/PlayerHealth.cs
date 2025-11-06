@@ -22,6 +22,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         else if (_currentHealth > _maxHealth)
             _currentHealth = _maxHealth;
     }
+    
     public void ApplyEffect(GameObject caster, IEffect<IDamageable> effect)
     {
         effect.OnCompleted += RemoveEffect;

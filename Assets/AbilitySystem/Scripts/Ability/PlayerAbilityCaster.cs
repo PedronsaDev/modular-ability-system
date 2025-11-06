@@ -7,7 +7,7 @@ public class PlayerAbilityCaster : MonoBehaviour
 {
     [SerializeField] private AbilityData _debugAbility;
     [SerializeField] private Enemy _target;
-    [SerializeField] private AnimationController _animationController;
+    [SerializeField] private PlayerAnimationController _playerAnimationController;
 
     private readonly AbilitySlot[] _abilitySlots = new AbilitySlot[10];
     private TargetingManager _targetingManager;
@@ -17,7 +17,7 @@ public class PlayerAbilityCaster : MonoBehaviour
 
     private void Awake()
     {
-        _animationController = GetComponent<AnimationController>();
+        _playerAnimationController = GetComponent<PlayerAnimationController>();
         _targetingManager = GetComponent<TargetingManager>();
 
         _controls = new PlayerInputActions();
@@ -102,7 +102,7 @@ public class PlayerAbilityCaster : MonoBehaviour
             return;
 
         _castTimer = new CountdownTimer(slot.Ability.CastTime);
-        _castTimer.OnTimerStart = () => _animationController.PlayOneShot(slot.Ability.CastAnimation);
+        _castTimer.OnTimerStart = () => _playerAnimationController.PlayOneShot(slot.Ability.CastAnimation);
         _castTimer.OnTimerStop = () => Cast(slot);
 
         Debug.Log("Executing ability: " + slot.Ability.Label);

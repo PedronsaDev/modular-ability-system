@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653ff2511ab16874c8bac36ea4302f70, type: 3}
+  m_Name: AOE_Test_Ability
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityData
+  Icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  Label: Meteor Shower
+  Description: 
+  VFXApply: {fileID: 7744441545125806789, guid: 62b698f91db29314aa9d08c3fc3106a6, type: 3}
+  CastTime: 0
+  CooldownTime: 1
+  CastAnimation: {fileID: -203655887218126122, guid: a58448e69d79db748baa24f828263552, type: 3}
+  Effects:
+  - rid: 9056268372935704706
+  - rid: 9056268372935704707
+  TargetingStrategy:
+    rid: 9056268389845828035
+  references:
+    version: 2
+    RefIds:
+    - rid: 9056268372935704706
+      type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        Duration: 5
+        TickInterval: 1
+        DamageAmountPerTick: 10
+    - rid: 9056268372935704707
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        DamageAmount: 10
+    - rid: 9056268389845828035
+      type: {class: AOETargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AOEPrefab: {fileID: 8783323721376608979, guid: afa8e7535a517a744ba31c22d62ddfee, type: 3}
+        AOERadius: 2
+        GroundLayer:
+          serializedVersion: 2
+          m_Bits: 64
+        _castAnimation: {fileID: -203655887218126122, guid: 4db20ff94f2ca2f4b84ee1128c80066c, type: 3}

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,10 +20,15 @@ public class TargetingManager : MonoBehaviour
 
     private void Update()
     {
-        if (_currentStrategy is { IsTargeting: true })
+        if (_currentStrategy != null && _currentStrategy.IsTargeting)
             _currentStrategy.Update();
     }
 
-    public void SetCurrentStrategy(TargetingStrategy strategy) => _currentStrategy = strategy;
+    public void SetCurrentStrategy(TargetingStrategy strategy)
+    {
+        Debug.Log("Setting current targeting strategy");
+        _currentStrategy?.Cancel();
+        _currentStrategy = strategy;
+    }
     public void ClearCurrentStrategy() => _currentStrategy = null;
 }

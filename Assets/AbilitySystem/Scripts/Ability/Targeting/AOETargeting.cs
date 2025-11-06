@@ -10,6 +10,7 @@ public class AOETargeting : TargetingStrategy
     public GameObject AOEPrefab;
     public float AOERadius = 5f;
     public LayerMask GroundLayer;
+    public AnimationClip _castAnimation;
 
     private GameObject _previewAOEInstance;
 
@@ -19,15 +20,19 @@ public class AOETargeting : TargetingStrategy
 
         this.Ability = ability;
         this.TargetingManager = targetingManager;
-        _isTargeting = true;
 
         this.TargetingManager.SetCurrentStrategy(this);
 
         if (AOEPrefab)
+        {
             _previewAOEInstance = UnityEngine.Object.Instantiate(AOEPrefab, Vector3.zero + new Vector3(0f, 0.1f, 0f), Quaternion.identity);
+            _previewAOEInstance.transform.localScale = new Vector3(AOERadius * 2, 0.5f, AOERadius * 2);
+        }
 
         if (this.TargetingManager.Input)
             TargetingManager.ClickAction.performed += OnClickPerformed;
+
+        _isTargeting = true;
     }
 
     public override void Update()
@@ -55,13 +60,14 @@ public class AOETargeting : TargetingStrategy
     public override void Cancel()
     {
         _isTargeting = false;
-        TargetingManager.ClearCurrentStrategy();
 
         if (_previewAOEInstance)
             UnityEngine.Object.Destroy(_previewAOEInstance);
 
         if (TargetingManager.Input)
             TargetingManager.ClickAction.performed -= OnClickPerformed;
+
+        TargetingManager.ClearCurrentStrategy();
     }
 
     private void OnClickPerformed(InputAction.CallbackContext callbackContext)
@@ -80,6 +86,8 @@ public class AOETargeting : TargetingStrategy
                 foreach (var target in targets)
                     Ability.Execute(TargetingManager.gameObject ,target);
 
+
+                TargetingManager.GetComponent<PlayerAnimationController>().PlayOneShot(_castAnimation);
                 Cancel();
             }
         }
