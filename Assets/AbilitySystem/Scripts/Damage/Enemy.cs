@@ -1,22 +1,43 @@
+using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] private GameObject _damagePopupPrefab;
-    public float Health = 50;
+    [SerializeField] private float _maxHealth = 50;
+    [SerializeField, ReadOnly] private float _health = 50;
 
     readonly List<IEffect<IDamageable>> _activeEffects = new List<IEffect<IDamageable>>();
 
+    private void Start()
+    {
+        _health = _maxHealth;
+    }
+
     public void TakeDamage(float damage)
     {
-        Health -= damage;
-        if (Health <= 0)
+        ModifyHealth(-damage);
+    }
+
+    public void Heal(float amount)
+    {
+        ModifyHealth(amount);
+    }
+
+    private void ModifyHealth(float amount)
+    {
+        _health += amount;
+        if (_health <= 0)
             Die();
+        else if (_health > _maxHealth)
+            _health = _maxHealth;
 
         if (_damagePopupPrefab)
-            ShowDamagePopup(damage);
+            ShowDamagePopup(amount);
     }
+
     private void ShowDamagePopup(float damage)
     {
         GameObject popup = Instantiate(_damagePopupPrefab, transform.position + Vector3.up * 2, Quaternion.identity);

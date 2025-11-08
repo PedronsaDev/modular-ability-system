@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 653ff2511ab16874c8bac36ea4302f70, type: 3}
-  m_Name: AOE_Test_Ability
+  m_Name: Meteor_Shower_Ability
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
-  Icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  Icon: {fileID: 21300000, guid: 300abdf8cbdd5c742a05b6506767fd64, type: 3}
   Label: Meteor Shower
   Description: 
-  VFXApply: {fileID: 7744441545125806789, guid: 62b698f91db29314aa9d08c3fc3106a6, type: 3}
+  VFXApply: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d, type: 3}
   CastTime: 0
-  CooldownTime: 1
+  CooldownTime: 5
   CastAnimation: {fileID: -203655887218126122, guid: a58448e69d79db748baa24f828263552, type: 3}
   Effects:
   - rid: 9056268372935704706
@@ -35,8 +35,10 @@ MonoBehaviour:
     - rid: 9056268389845828035
       type: {class: AOETargeting, ns: , asm: Assembly-CSharp}
       data:
-        AOEPrefab: {fileID: 8783323721376608979, guid: afa8e7535a517a744ba31c22d62ddfee, type: 3}
-        AOERadius: 2
+        AbilityEffectPrefab: {fileID: 7640970267051462298, guid: ae9bdcaa1a8496449b1068fd7844906c, type: 3}
+        EffectOffset: {x: 0, y: 30, z: 0}
+        AOEPreviewPrefab: {fileID: 8783323721376608979, guid: afa8e7535a517a744ba31c22d62ddfee, type: 3}
+        AOERadius: 5
         GroundLayer:
           serializedVersion: 2
           m_Bits: 64

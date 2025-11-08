@@ -1,27 +1,29 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public class DamageEffectFactory : IEffectFactory<IDamageable>
+public class HealEffectFactory : IEffectFactory<IDamageable>
 {
-    public float DamageAmount = 10f;
+    public float HealAmount = 10f;
 
     public IEffect<IDamageable> Create()
     {
-        return new DamageEffect {DamageAmount = this.DamageAmount};
+        return new HealEffect()
+        {
+            HealAmount = this.HealAmount
+        };
     }
 }
 
 [Serializable]
-public struct DamageEffect : IEffect<IDamageable>
+public struct HealEffect : IEffect<IDamageable>
 {
-    public float DamageAmount;
+    public float HealAmount;
 
     public event Action<IEffect<IDamageable>> OnCompleted;
 
     public void Apply(GameObject caster ,IDamageable target)
     {
-        target.TakeDamage(DamageAmount);
+        target.Heal(HealAmount);
         OnCompleted?.Invoke(this);
     }
 

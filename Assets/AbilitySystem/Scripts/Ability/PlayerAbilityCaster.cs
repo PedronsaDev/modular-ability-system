@@ -99,6 +99,11 @@ public class PlayerAbilityCaster : MonoBehaviour
         if (slot == null || !slot.CanUse)
             return;
 
+        if (_castTimer is { IsRunning: true })
+        {
+            _castTimer.Pause();
+        }
+
         _castTimer = new CountdownTimer(slot.Ability.CastTime);
         _castTimer.OnTimerStart = () => _playerAnimationController.PlayOneShot(slot.Ability.CastAnimation);
         _castTimer.OnTimerStop = () => StartTargeting(slot);

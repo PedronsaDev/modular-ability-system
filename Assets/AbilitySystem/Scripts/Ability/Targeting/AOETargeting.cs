@@ -6,8 +6,9 @@ using UnityEngine.InputSystem;
 [Serializable]
 public class AOETargeting : TargetingStrategy
 {
-
-    public GameObject AOEPrefab;
+    public GameObject AbilityEffectPrefab;
+    public Vector3 EffectOffset;
+    public GameObject AOEPreviewPrefab;
     public float AOERadius = 5f;
     public LayerMask GroundLayer;
     public AnimationClip _castAnimation;
@@ -21,9 +22,9 @@ public class AOETargeting : TargetingStrategy
 
         this.TargetingManager.SetCurrentStrategy(this);
 
-        if (AOEPrefab)
+        if (AOEPreviewPrefab)
         {
-            _previewAOEInstance = UnityEngine.Object.Instantiate(AOEPrefab, Vector3.zero + new Vector3(0f, 0.1f, 0f), Quaternion.identity);
+            _previewAOEInstance = UnityEngine.Object.Instantiate(AOEPreviewPrefab, Vector3.zero + new Vector3(0f, 0.1f, 0f), Quaternion.identity);
             _previewAOEInstance.transform.localScale = new Vector3(AOERadius * 2, 0.5f, AOERadius * 2);
         }
 
@@ -86,6 +87,13 @@ public class AOETargeting : TargetingStrategy
                     Ability.Execute(TargetingManager.gameObject ,target);
 
 
+                var effectPosition = hitInfo.point + EffectOffset;
+                if (AbilityEffectPrefab)
+                {
+                    var effect = UnityEngine.Object.Instantiate(AbilityEffectPrefab, effectPosition, Quaternion.identity);
+                    effect.transform.localScale = new Vector3(AOERadius, AOERadius, AOERadius);
+                    UnityEngine.Object.Destroy(effect, 3f);
+                }
                 TargetingManager.GetComponent<PlayerAnimationController>().PlayOneShot(_castAnimation);
                 Cancel();
             }

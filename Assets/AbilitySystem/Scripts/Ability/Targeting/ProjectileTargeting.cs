@@ -17,7 +17,7 @@ public class ProjectileTargeting : TargetingStrategy
             var flatForward = targetingManager.Cam.transform.forward.normalized;
             flatForward.y = 0;
             var forwardRotation = Quaternion.LookRotation(flatForward);
-            var projectile = Object.Instantiate(ProjectilePrefab, caster.transform.position + Vector3.up, forwardRotation);
+            var projectile = Object.Instantiate(ProjectilePrefab, caster.transform.position, forwardRotation);
 
             projectile.GetComponent<ProjectileController>().Initialize(Ability, ProjectileSpeed ,caster);
         }

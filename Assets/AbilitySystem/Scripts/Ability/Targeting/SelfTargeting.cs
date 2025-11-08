@@ -12,4 +12,12 @@ public class SelfTargeting : TargetingStrategy
 
         RaiseTargetingComplete();
     }
+
+    public override void Cancel()
+    {
+        _isTargeting = false;
+
+        RaiseTargetingComplete();
+        TargetingManager.ClearCurrentStrategy();
+    }
 }

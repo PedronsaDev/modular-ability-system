@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private float _maxHealth = 100;
-    [SerializeField] private float _currentHealth = 100;
+    [SerializeField, ReadOnly] private float _currentHealth = 100;
 
     private bool _isDead = false;
 
@@ -14,15 +15,27 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
-        _currentHealth -= damage;
+        ModifyHealth(-damage);
+
         Debug.Log($"Player took {damage} damage. Current health: {_currentHealth}/{_maxHealth}");
+    }
+    public void Heal(float amount)
+    {
+        ModifyHealth(amount);
+
+        Debug.Log($"Player healed {amount}. Current health: {_currentHealth}/{_maxHealth}");
+    }
+    private void ModifyHealth(float amount)
+    {
+
+        _currentHealth += amount;
 
         if (_currentHealth <= 0)
             Die();
         else if (_currentHealth > _maxHealth)
             _currentHealth = _maxHealth;
     }
-    
+
     public void ApplyEffect(GameObject caster, IEffect<IDamageable> effect)
     {
         effect.OnCompleted += RemoveEffect;

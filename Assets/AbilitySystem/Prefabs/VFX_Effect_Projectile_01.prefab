@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3616043669756343959}
   - component: {fileID: 5667087120709224609}
   m_Layer: 0
-  m_Name: VFX_Effect_Projectile_01
+  m_Name: vfx_Effect_Projectile_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

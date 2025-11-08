@@ -1,30 +1,29 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public class DamageOverTimeEffectFactory : IEffectFactory<IDamageable>
+public class HealOvertimeEffectFactory : IEffectFactory<IDamageable>
 {
     public float Duration = 5f;
     public float TickInterval = 1f;
-    public float DamageAmountPerTick = 10f;
+    public float HealAmountPerTick = 10f;
 
     public IEffect<IDamageable> Create()
     {
-        return new DamageEffectOvertime
+        return new HealEffectOvertime()
         {
             Duration = this.Duration,
             TickInterval = this.TickInterval,
-            DamageAmountPerTick = this.DamageAmountPerTick
+            HealAmountPerTick = this.HealAmountPerTick
         };
     }
 }
 
 [Serializable]
-public struct DamageEffectOvertime : IEffect<IDamageable>
+public struct HealEffectOvertime : IEffect<IDamageable>
 {
     public float Duration;
     public float TickInterval;
-    public float DamageAmountPerTick;
+    public float HealAmountPerTick;
 
     private IntervalTimer _timer;
     private IDamageable _currentTarget;
@@ -43,7 +42,7 @@ public struct DamageEffectOvertime : IEffect<IDamageable>
 
     private void OnInterval()
     {
-        _currentTarget?.TakeDamage(DamageAmountPerTick);
+        _currentTarget?.TakeDamage(HealAmountPerTick);
     }
 
     private void Cleanup()

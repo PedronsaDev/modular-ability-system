@@ -20,7 +20,7 @@ public class AbilityData : ScriptableObject
     [Range(0f, 5f)] public float CastTime = 1f;
 
     [Tooltip("Time in seconds before the ability can be used again")]
-    [Range(0f, 5f)] public float CooldownTime = 1f;
+    public float CooldownTime = 1f;
 
     public AnimationClip CastAnimation;
 

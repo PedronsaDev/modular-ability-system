@@ -99,7 +99,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1220133298315887411}
   m_Layer: 0
-  m_Name: VFX_Targeting_AOE_01
+  m_Name: Targeting_Preview_AOE_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

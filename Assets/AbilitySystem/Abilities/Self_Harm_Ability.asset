@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653ff2511ab16874c8bac36ea4302f70, type: 3}
+  m_Name: Self_Harm_Ability
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityData
+  Icon: {fileID: 21300000, guid: 61dab0b6e506c6a43b12d9fde15b2393, type: 3}
+  Label: Heal
+  Description: 
+  VFXApply: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a, type: 3}
+  CastTime: 0
+  CooldownTime: 10
+  CastAnimation: {fileID: 0}
+  Effects:
+  - rid: 9056268454320144647
+  TargetingStrategy:
+    rid: 9056268454320144627
+  references:
+    version: 2
+    RefIds:
+    - rid: 9056268454320144627
+      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 9056268454320144647
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        DamageAmount: 10
