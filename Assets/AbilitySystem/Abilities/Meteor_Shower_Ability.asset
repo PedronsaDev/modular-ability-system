@@ -15,9 +15,10 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 300abdf8cbdd5c742a05b6506767fd64, type: 3}
   Label: Meteor Shower
   Description: 
-  VFXApply: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d, type: 3}
+  EffectVFX: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d, type: 3}
+  EffectVFXDuration: 5
   CastTime: 0
-  CooldownTime: 5
+  CooldownTime: 10
   CastAnimation: {fileID: -203655887218126122, guid: a58448e69d79db748baa24f828263552, type: 3}
   Effects:
   - rid: 9056268372935704706
@@ -29,8 +30,8 @@ MonoBehaviour:
     - rid: 9056268372935704706
       type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        Duration: 3
-        TickInterval: 0.4
+        Duration: 5
+        TickInterval: 1
         DamageAmountPerTick: 10
     - rid: 9056268389845828035
       type: {class: AOETargeting, ns: , asm: Assembly-CSharp}

@@ -12,7 +12,8 @@ public class AbilityDataEditor : Editor
     private SerializedProperty _iconProp;
     private SerializedProperty _labelProp;
     private SerializedProperty _descriptionProp;
-    private SerializedProperty _vfxApply;
+    private SerializedProperty _effectVFX;
+    private SerializedProperty _effectVFXDuration;
     private SerializedProperty _castTimeProp;
     private SerializedProperty _cooldownTimeProp;
     private SerializedProperty _castAnimProp;
@@ -31,7 +32,8 @@ public class AbilityDataEditor : Editor
         _iconProp = serializedObject.FindProperty("Icon");
         _labelProp = serializedObject.FindProperty("Label");
         _descriptionProp = serializedObject.FindProperty("Description");
-        _vfxApply = serializedObject.FindProperty("VFXApply");
+        _effectVFX = serializedObject.FindProperty("EffectVFX");
+        _effectVFXDuration = serializedObject.FindProperty("EffectVFXDuration");
         _castTimeProp = serializedObject.FindProperty("CastTime");
         _cooldownTimeProp = serializedObject.FindProperty("CooldownTime");
         _castAnimProp = serializedObject.FindProperty("CastAnimation");
@@ -40,7 +42,6 @@ public class AbilityDataEditor : Editor
 
         _root = new VisualElement();
 
-        // Icon field + preview row
         var iconRow = new VisualElement
         {
             style =
@@ -85,7 +86,8 @@ public class AbilityDataEditor : Editor
         _root.Add(new PropertyField(_descriptionProp, "Description"));
         _root.Add(new PropertyField(_castTimeProp, "Cast Time"));
         _root.Add(new PropertyField(_cooldownTimeProp, "Cooldown Time"));
-        _root.Add(new PropertyField(_vfxApply, "Apply VFX"));
+        _root.Add(new PropertyField(_effectVFX, "Effect VFX"));
+        _root.Add(new PropertyField(_effectVFXDuration, "Effect VFX Duration"));
         _root.Add(new PropertyField(_castAnimProp, "Cast Animation"));
 
         // Effects header with Add button

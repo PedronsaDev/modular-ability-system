@@ -92,8 +92,9 @@ public class AOETargeting : TargetingStrategy
                 {
                     var effect = UnityEngine.Object.Instantiate(AbilityEffectPrefab, effectPosition, Quaternion.identity);
                     effect.transform.localScale = new Vector3(AOERadius, AOERadius, AOERadius);
-                    UnityEngine.Object.Destroy(effect, 3f);
+                    UnityEngine.Object.Destroy(effect, Ability.EffectVFXDuration);
                 }
+
                 TargetingManager.GetComponent<PlayerAnimationController>().PlayOneShot(_castAnimation);
                 Cancel();
             }

@@ -15,9 +15,10 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: eed44235dcbd621438f7c0c4f05e2356, type: 3}
   Label: Black Hole
   Description: 
-  VFXApply: {fileID: 5824670795371433373, guid: f6fd568b816c64943a44efc3add3a881, type: 3}
+  EffectVFX: {fileID: 5824670795371433373, guid: f6fd568b816c64943a44efc3add3a881, type: 3}
+  EffectVFXDuration: 3
   CastTime: 1
-  CooldownTime: 10
+  CooldownTime: 4
   CastAnimation: {fileID: -203655887218126122, guid: 4c1b973723cf0854b9c9981a1d24419b, type: 3}
   Effects:
   - rid: 9056268454320144651

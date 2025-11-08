@@ -13,8 +13,10 @@ public class AbilityData : ScriptableObject
     [Tooltip("The description of the ability that will be displayed in the UI"), TextArea]
     public string Description;
 
-    [Tooltip("The effect prefab to spawn on the target when the ability is used.")]
-    public GameObject VFXApply;
+    [Tooltip("The effect prefab to spawn on the target when the ability is applied.")]
+    public GameObject EffectVFX;
+    [Tooltip("Duration in seconds for which the effect VFX should last.")]
+    public float EffectVFXDuration;
 
     [Tooltip("Time in seconds required to cast the ability")]
     [Range(0f, 5f)] public float CastTime = 1f;
@@ -61,10 +63,10 @@ public class AbilityData : ScriptableObject
         if (!targetMb)
             return;
 
-        if (VFXApply)
+        if (EffectVFX)
         {
-            var overtimeVFX = Instantiate(VFXApply, targetMb.transform.position, Quaternion.identity, targetMb.transform);
-            Destroy(overtimeVFX, 3f);
+            var overtimeVFX = Instantiate(EffectVFX, targetMb.transform.position, Quaternion.identity, targetMb.transform);
+            Destroy(overtimeVFX, EffectVFXDuration);
         }
     }
 }

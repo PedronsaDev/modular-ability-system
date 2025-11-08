@@ -21,6 +21,15 @@ public class ProjectileTargeting : TargetingStrategy
 
             projectile.GetComponent<ProjectileController>().Initialize(Ability, ProjectileSpeed ,caster);
         }
+
         RaiseTargetingComplete();
+    }
+
+    public override void Cancel()
+    {
+        _isTargeting = false;
+
+        RaiseTargetingComplete();
+        TargetingManager.ClearCurrentStrategy();
     }
 }
