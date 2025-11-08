@@ -9,5 +9,7 @@ public class SelfTargeting : TargetingStrategy
         {
             ability.Execute(targetingManager.gameObject, target);
         }
+
+        RaiseTargetingComplete();
     }
 }

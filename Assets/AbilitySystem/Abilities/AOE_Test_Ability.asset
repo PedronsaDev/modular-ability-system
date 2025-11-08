@@ -21,7 +21,6 @@ MonoBehaviour:
   CastAnimation: {fileID: -203655887218126122, guid: a58448e69d79db748baa24f828263552, type: 3}
   Effects:
   - rid: 9056268372935704706
-  - rid: 9056268372935704707
   TargetingStrategy:
     rid: 9056268389845828035
   references:
@@ -30,13 +29,9 @@ MonoBehaviour:
     - rid: 9056268372935704706
       type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        Duration: 5
-        TickInterval: 1
+        Duration: 3
+        TickInterval: 0.4
         DamageAmountPerTick: 10
-    - rid: 9056268372935704707
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        DamageAmount: 10
     - rid: 9056268389845828035
       type: {class: AOETargeting, ns: , asm: Assembly-CSharp}
       data:

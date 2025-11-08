@@ -8,6 +8,6 @@ public class AbilityUI : MonoBehaviour
     public void BindSlots(AbilitySlot[] slots)
     {
         for (int i = 0; i < _slotUIs.Count && i < slots.Length; i++)
-            _slotUIs[i].Bind(slots[i]);
+            _slotUIs[i].Bind(slots[i], i+1);
     }
 }

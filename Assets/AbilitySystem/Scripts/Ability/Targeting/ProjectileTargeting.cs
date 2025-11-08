@@ -21,5 +21,6 @@ public class ProjectileTargeting : TargetingStrategy
 
             projectile.GetComponent<ProjectileController>().Initialize(Ability, ProjectileSpeed ,caster);
         }
+        RaiseTargetingComplete();
     }
 }

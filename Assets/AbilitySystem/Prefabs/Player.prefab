@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 9077630488734798883}
   - component: {fileID: 9149206534538424755}
   - component: {fileID: 8595355790526721611}
-  - component: {fileID: 2172342957479827959}
-  - component: {fileID: 4009711206612547792}
   - component: {fileID: 2967400493733625973}
   - component: {fileID: 8263880011654711339}
+  - component: {fileID: 4009711206612547792}
+  - component: {fileID: 2172342957479827959}
   - component: {fileID: 7659667947892351550}
   m_Layer: 0
   m_Name: Player
@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilityExecutor
   _debugAbility: {fileID: 11400000, guid: 82b7b4c2f17f09046be57790cd0f1200, type: 2}
   _target: {fileID: 0}
-  _animationController: {fileID: 8595355790526721611}
+  _playerAnimationController: {fileID: 8595355790526721611}
 --- !u!114 &8595355790526721611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +67,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 218b48673f8c4101866041816caf6753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationController
+--- !u!114 &2967400493733625973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588760583825498443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3293fdb10e3ce444096523e1758a80c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  _moveSpeed: 5
+  _lookSensitivity: 0.1
+  _cameraAnchor: {fileID: 8770235356557522418}
+  _playerAnimationController: {fileID: 0}
+  _animBlendDamp: 0.05
+--- !u!114 &8263880011654711339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588760583825498443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13e722553451dcc46882de97449ee432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  _maxHealth: 100
+  _currentHealth: 100
+--- !u!114 &4009711206612547792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588760583825498443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c62342d9814464495c7f70e5100add, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetingManager
+  Input: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  Cam: {fileID: 0}
 --- !u!95 &2172342957479827959
 Animator:
   serializedVersion: 7
@@ -89,51 +134,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4009711206612547792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1588760583825498443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02c62342d9814464495c7f70e5100add, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TargetingManager
-  Input: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  Cam: {fileID: 0}
---- !u!114 &2967400493733625973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1588760583825498443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3293fdb10e3ce444096523e1758a80c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  _moveSpeed: 10
-  _lookSensitivity: 0.1
-  _cameraAnchor: {fileID: 8770235356557522418}
-  _animationController: {fileID: 8595355790526721611}
-  _animBlendDamp: 0.05
---- !u!114 &8263880011654711339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1588760583825498443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13e722553451dcc46882de97449ee432, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  _maxHealth: 100
-  _currentHealth: 100
 --- !u!143 &7659667947892351550
 CharacterController:
   m_ObjectHideFlags: 0

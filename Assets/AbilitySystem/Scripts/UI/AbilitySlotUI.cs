@@ -1,18 +1,36 @@
+using System;
 using PrimeTween;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AbilitySlotUI : MonoBehaviour
 {
     [SerializeField] private Image _iconImage;
+    [SerializeField] private TMP_Text _numberText;
     private AbilitySlot _slot;
 
-    public void Bind(AbilitySlot slot)
+    public void Bind(AbilitySlot slot, int index)
     {
         _slot = slot;
         _slot.OnInitialize += UpdateUI;
         _slot.OnCooldownStart += OnCooldownStart;
         _slot.OnCooldownComplete += OnCooldownComplete;
+
+        if (index == 10)
+            index = 0;
+
+        _numberText.SetText(index.ToString());
+    }
+
+    private void OnDestroy()
+    {
+        if (_slot == null)
+            return;
+
+        _slot.OnInitialize -= UpdateUI;
+        _slot.OnCooldownStart -= OnCooldownStart;
+        _slot.OnCooldownComplete -= OnCooldownComplete;
     }
 
     private void OnCooldownComplete()
@@ -32,5 +50,6 @@ public class AbilitySlotUI : MonoBehaviour
     private void UpdateUI(AbilitySlot newSlot)
     {
         _iconImage.sprite = newSlot.Ability.Icon;
+        _iconImage.color = Color.white;
     }
 }

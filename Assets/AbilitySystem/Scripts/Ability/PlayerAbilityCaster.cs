@@ -35,6 +35,7 @@ public class PlayerAbilityCaster : MonoBehaviour
             _abilitySlots[i] = new AbilitySlot();
 
         FindAnyObjectByType<AbilityUI>().BindSlots(_abilitySlots);
+        EquipDebugAbility();
     }
 
     private void OnDestroy()
@@ -75,7 +76,6 @@ public class PlayerAbilityCaster : MonoBehaviour
     [Button]
     public void EquipDebugAbility() => EquipAbility(_debugAbility, 0);
 
-
     public void EquipAbility(AbilityData ability, int slot)
     {
         if (slot < 0 || slot >= _abilitySlots.Length)
@@ -87,12 +87,10 @@ public class PlayerAbilityCaster : MonoBehaviour
         _abilitySlots[slot].Initialize(ability);
     }
 
-    private void Cast(AbilitySlot slot)
+    private void StartTargeting(AbilitySlot slot)
     {
-        slot.StartCooldown();
         slot.Ability.Target(_targetingManager);
 
-        // play cast animation in loop
         // play casting sfx and vfx if any
     }
 
@@ -103,9 +101,8 @@ public class PlayerAbilityCaster : MonoBehaviour
 
         _castTimer = new CountdownTimer(slot.Ability.CastTime);
         _castTimer.OnTimerStart = () => _playerAnimationController.PlayOneShot(slot.Ability.CastAnimation);
-        _castTimer.OnTimerStop = () => Cast(slot);
+        _castTimer.OnTimerStop = () => StartTargeting(slot);
 
-        Debug.Log("Executing ability: " + slot.Ability.Label);
         _castTimer.Start();
     }
 }

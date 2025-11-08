@@ -16,12 +16,18 @@ public class AbilitySlot
 
     public void Initialize(AbilityData ability)
     {
+        if (Ability)
+        {
+            Ability.TargetingStrategy.OnTargetingCompleted -= StartCooldown;
+        }
+
         Ability = ability;
         CanUse = true;
+        Ability.TargetingStrategy.OnTargetingCompleted += StartCooldown;
         OnInitialize?.Invoke(this);
     }
 
-    public void StartCooldown()
+    private void StartCooldown()
     {
         if (Ability.CooldownTime <= 0)
             return;

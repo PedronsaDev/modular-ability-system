@@ -16,8 +16,6 @@ public class AOETargeting : TargetingStrategy
 
     public override void Start(AbilityData ability, TargetingManager targetingManager)
     {
-        Debug.Log("Starting AOE Targeting");
-
         this.Ability = ability;
         this.TargetingManager = targetingManager;
 
@@ -67,6 +65,7 @@ public class AOETargeting : TargetingStrategy
         if (TargetingManager.Input)
             TargetingManager.ClickAction.performed -= OnClickPerformed;
 
+        RaiseTargetingComplete();
         TargetingManager.ClearCurrentStrategy();
     }
 
