@@ -515,7 +515,7 @@ public class AbilityDataEditor : Editor
     private static List<Type> GetEffectTypes()
     {
         // Grab types that implement the closed generic interface <IEffectFactory<IDamageable>>
-        var derived = TypeCache.GetTypesDerivedFrom<IEffectFactory<IDamageable>>();
+        var derived = TypeCache.GetTypesDerivedFrom<IEffect<IDamageable>>();
         return derived.Where(t => !t.IsAbstract && t.IsClass)
             .OrderBy(t => t.Name)
             .ToList();

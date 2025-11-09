@@ -2,29 +2,11 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class DamageOverTimeEffectFactory : IEffectFactory<IDamageable>
+public class DamageEffectOvertime : IEffect<IDamageable>
 {
     public float Duration = 5f;
     public float TickInterval = 1f;
     public float DamageAmountPerTick = 10f;
-
-    public IEffect<IDamageable> Create()
-    {
-        return new DamageEffectOvertime
-        {
-            Duration = this.Duration,
-            TickInterval = this.TickInterval,
-            DamageAmountPerTick = this.DamageAmountPerTick
-        };
-    }
-}
-
-[Serializable]
-public struct DamageEffectOvertime : IEffect<IDamageable>
-{
-    public float Duration;
-    public float TickInterval;
-    public float DamageAmountPerTick;
 
     private IntervalTimer _timer;
     private IDamageable _currentTarget;

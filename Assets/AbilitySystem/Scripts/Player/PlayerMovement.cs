@@ -76,7 +76,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (_playerAnimationController)
         {
-            // Project velocity onto camera axes to get blend values in local camera space
             Vector2 blend = Vector2.zero;
             if (speed > 0.001f)
             {

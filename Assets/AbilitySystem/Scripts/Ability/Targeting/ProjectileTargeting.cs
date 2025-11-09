@@ -5,12 +5,10 @@ public class ProjectileTargeting : TargetingStrategy
     public GameObject ProjectilePrefab;
     public float ProjectileSpeed = 20f;
 
-    public override void Start(AbilityData ability, TargetingManager targetingManager)
+    public override void Start(AbilityData ability, TargetingManager targetingManager, GameObject caster)
     {
         this.TargetingManager = targetingManager;
         this.Ability = ability;
-
-        GameObject caster = this.TargetingManager.gameObject;
 
         if (ProjectilePrefab)
         {

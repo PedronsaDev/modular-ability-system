@@ -2,23 +2,9 @@
 using UnityEngine;
 
 [Serializable]
-public class KnockbackEffectFactory : IEffectFactory<IDamageable>
+public class KnockbackEffect : IEffect<IDamageable>
 {
-    public float Force = 10f;
-
-    public IEffect<IDamageable> Create()
-    {
-        return new KnockbackEffect
-        {
-            Force = this.Force
-        };
-    }
-}
-
-[Serializable]
-public struct KnockbackEffect : IEffect<IDamageable>
-{
-    public float Force;
+    public float Force = 5f;
 
     public event Action<IEffect<IDamageable>> OnCompleted;
 
@@ -34,7 +20,7 @@ public struct KnockbackEffect : IEffect<IDamageable>
         if (targetTransform.TryGetComponent(out Rigidbody rb))
         {
             rb.AddForce(dir*Force, ForceMode.Impulse);
-            Debug.Log($"{caster.name} knocks back {targetTransform.name} with force {Force}");
+            //Debug.Log($"{caster.name} knocks back {targetTransform.name} with force {Force}");
         }
         else
         {

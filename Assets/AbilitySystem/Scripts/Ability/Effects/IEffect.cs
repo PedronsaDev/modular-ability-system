@@ -7,8 +7,3 @@ public interface IEffect<in TTarget>
     void Cancel();
     event Action<IEffect<TTarget>> OnCompleted;
 }
-
-public interface IEffectFactory<in TTarget>
-{
-    IEffect<TTarget> Create();
-}

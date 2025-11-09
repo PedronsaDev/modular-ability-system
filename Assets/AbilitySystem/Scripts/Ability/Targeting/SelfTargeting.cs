@@ -1,13 +1,14 @@
+using UnityEngine;
 public class SelfTargeting : TargetingStrategy
 {
-    public override void Start(AbilityData ability, TargetingManager targetingManager)
+    public override void Start(AbilityData ability, TargetingManager targetingManager, GameObject caster)
     {
         this.Ability = ability;
         this.TargetingManager = targetingManager;
 
-        if (targetingManager.transform.TryGetComponent<IDamageable>(out var target))
+        if (caster.transform.TryGetComponent<IDamageable>(out var target))
         {
-            ability.Execute(targetingManager.gameObject, target);
+            ability.Execute(caster, target);
         }
 
         RaiseTargetingComplete();

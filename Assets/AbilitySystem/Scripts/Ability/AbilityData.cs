@@ -27,7 +27,7 @@ public class AbilityData : ScriptableObject
     public AnimationClip CastAnimation;
 
     [Header("Effects")]
-    [SerializeReference] public List<IEffectFactory<IDamageable>> Effects;
+    [SerializeReference] public List<IEffect<IDamageable>> Effects;
 
     [Header("Targeting")]
     [SerializeReference] public TargetingStrategy TargetingStrategy;
@@ -37,7 +37,7 @@ public class AbilityData : ScriptableObject
         if (string.IsNullOrEmpty(Label))
             Label = name;
 
-        Effects ??= new List<IEffectFactory<IDamageable>>();
+        Effects ??= new List<IEffect<IDamageable>>();
     }
 
     public void Execute(GameObject caster ,IDamageable target)
@@ -45,15 +45,12 @@ public class AbilityData : ScriptableObject
         HandleVFX(target);
 
         foreach (var effect in Effects)
-        {
-            var runtimeEffect = effect.Create();
-            target.ApplyEffect(caster, runtimeEffect);
-        }
+            target.ApplyEffect(caster, effect);
     }
 
-    public void Target(TargetingManager targetingManager)
+    public void Target(TargetingManager targetingManager, GameObject caster)
     {
-        TargetingStrategy?.Start(this, targetingManager);
+        TargetingStrategy?.Start(this, targetingManager, caster);
     }
 
     public void HandleVFX(IDamageable target)

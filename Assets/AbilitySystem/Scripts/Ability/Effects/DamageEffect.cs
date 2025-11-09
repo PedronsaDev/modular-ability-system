@@ -2,20 +2,9 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class DamageEffectFactory : IEffectFactory<IDamageable>
+public class DamageEffect : IEffect<IDamageable>
 {
     public float DamageAmount = 10f;
-
-    public IEffect<IDamageable> Create()
-    {
-        return new DamageEffect {DamageAmount = this.DamageAmount};
-    }
-}
-
-[Serializable]
-public struct DamageEffect : IEffect<IDamageable>
-{
-    public float DamageAmount;
 
     public event Action<IEffect<IDamageable>> OnCompleted;
 

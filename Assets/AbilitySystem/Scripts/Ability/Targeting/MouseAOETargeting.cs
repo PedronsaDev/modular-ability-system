@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [Serializable]
-public class AOETargeting : TargetingStrategy
+public class MouseAOETargeting : TargetingStrategy
 {
     public GameObject AbilityEffectPrefab;
     public Vector3 EffectOffset;
@@ -15,7 +15,7 @@ public class AOETargeting : TargetingStrategy
 
     private GameObject _previewAOEInstance;
 
-    public override void Start(AbilityData ability, TargetingManager targetingManager)
+    public override void Start(AbilityData ability, TargetingManager targetingManager, GameObject caster)
     {
         this.Ability = ability;
         this.TargetingManager = targetingManager;

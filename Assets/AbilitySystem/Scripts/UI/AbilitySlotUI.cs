@@ -1,10 +1,10 @@
-using System;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AbilitySlotUI : MonoBehaviour
+public class AbilitySlotUI : MonoBehaviour, IDropHandler
 {
     [SerializeField] private Image _iconImage;
     [SerializeField] private TMP_Text _numberText;
@@ -51,5 +51,12 @@ public class AbilitySlotUI : MonoBehaviour
     {
         _iconImage.sprite = newSlot.Ability.Icon;
         _iconImage.color = Color.white;
+    }
+    public void OnDrop(PointerEventData eventData)
+    {
+        var draggableAbility = DraggableAbilityUI.CurrentlyDraggedAbility;
+        if (draggableAbility && draggableAbility.AbilityData)
+            _slot.SetAbility(draggableAbility.AbilityData);
+        Destroy(draggableAbility.gameObject);
     }
 }

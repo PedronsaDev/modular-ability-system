@@ -44,4 +44,8 @@ public class AbilitySlot
 
         _cooldownTimer.Start();
     }
+    public void SetAbility(AbilityData abilityData)
+    {
+        Initialize(abilityData);
+    }
 }

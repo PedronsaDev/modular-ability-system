@@ -5,11 +5,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(TargetingManager))]
 public class PlayerAbilityCaster : MonoBehaviour
 {
-    [SerializeField] private AbilityData _debugAbility;
     [SerializeField] private Enemy _target;
-    [SerializeField] private PlayerAnimationController _playerAnimationController;
+    [SerializeField] private AbilityData _debugAbility;
 
     private readonly AbilitySlot[] _abilitySlots = new AbilitySlot[10];
+    private PlayerAnimationController _playerAnimationController;
     private TargetingManager _targetingManager;
     private CountdownTimer _castTimer;
 
@@ -35,7 +35,9 @@ public class PlayerAbilityCaster : MonoBehaviour
             _abilitySlots[i] = new AbilitySlot();
 
         FindAnyObjectByType<AbilityUI>().BindSlots(_abilitySlots);
-        EquipDebugAbility();
+
+        if (_debugAbility)
+            EquipDebugAbility();
     }
 
     private void OnDestroy()
@@ -89,7 +91,7 @@ public class PlayerAbilityCaster : MonoBehaviour
 
     private void StartTargeting(AbilitySlot slot)
     {
-        slot.Ability.Target(_targetingManager);
+        slot.Ability.Target(_targetingManager, this.gameObject);
 
         // play casting sfx and vfx if any
     }

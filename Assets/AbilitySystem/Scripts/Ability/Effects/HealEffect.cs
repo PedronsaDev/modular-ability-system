@@ -1,23 +1,10 @@
 using System;
 using UnityEngine;
 
-public class HealEffectFactory : IEffectFactory<IDamageable>
+[Serializable]
+public class HealEffect : IEffect<IDamageable>
 {
     public float HealAmount = 10f;
-
-    public IEffect<IDamageable> Create()
-    {
-        return new HealEffect()
-        {
-            HealAmount = this.HealAmount
-        };
-    }
-}
-
-[Serializable]
-public struct HealEffect : IEffect<IDamageable>
-{
-    public float HealAmount;
 
     public event Action<IEffect<IDamageable>> OnCompleted;
 
