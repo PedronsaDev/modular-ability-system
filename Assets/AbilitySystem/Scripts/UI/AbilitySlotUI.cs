@@ -3,13 +3,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using YourNamespace;
 
+/// <summary>
+/// UI representation of an ability slot; binds to slot events and visualizes cooldown via fill & tween.
+/// </summary>
 public class AbilitySlotUI : MonoBehaviour, IDropHandler
 {
     [SerializeField] private Image _iconImage;
     [SerializeField] private TMP_Text _numberText;
     private AbilitySlot _slot;
 
+    /// <summary>Bind this UI to a slot and initialize numeric label.</summary>
     public void Bind(AbilitySlot slot, int index)
     {
         _slot = slot;
@@ -33,12 +38,14 @@ public class AbilitySlotUI : MonoBehaviour, IDropHandler
         _slot.OnCooldownComplete -= OnCooldownComplete;
     }
 
+    /// <summary>Cooldown complete visuals reset.</summary>
     private void OnCooldownComplete()
     {
         _iconImage.fillAmount = 1f;
         _iconImage.color = Color.white;
     }
 
+    /// <summary>Cooldown start visuals & tween invocation.</summary>
     private void OnCooldownStart()
     {
         _iconImage.fillAmount = 0f;
@@ -52,6 +59,7 @@ public class AbilitySlotUI : MonoBehaviour, IDropHandler
         _iconImage.sprite = newSlot.Ability.Icon;
         _iconImage.color = Color.white;
     }
+    /// <summary>Handle drop of a draggable ability icon to set the slot's ability.</summary>
     public void OnDrop(PointerEventData eventData)
     {
         var draggableAbility = DraggableAbilityUI.CurrentlyDraggedAbility;

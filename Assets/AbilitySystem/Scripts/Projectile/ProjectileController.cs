@@ -49,6 +49,7 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    /// <summary>Maintain constant forward velocity each physics step.</summary>
     private void FixedUpdate()
     {
         _rb.linearVelocity = transform.forward*_speed;

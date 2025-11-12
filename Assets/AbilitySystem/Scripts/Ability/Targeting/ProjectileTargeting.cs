@@ -1,10 +1,14 @@
 using UnityEngine;
 
+/// <summary>
+/// Spawns a projectile oriented to camera forward; projectile impact executes ability effects.
+/// </summary>
 public class ProjectileTargeting : TargetingStrategy
 {
     public GameObject ProjectilePrefab;
     public float ProjectileSpeed = 20f;
 
+    /// <summary>Starts projectile targeting by instantiating the projectile prefab.</summary>
     public override void Start(AbilityData ability, TargetingManager targetingManager, GameObject caster)
     {
         this.TargetingManager = targetingManager;
@@ -23,6 +27,7 @@ public class ProjectileTargeting : TargetingStrategy
         RaiseTargetingComplete();
     }
 
+    /// <summary>Cancels targeting (cooldown trigger) though projectile is already fired.</summary>
     public override void Cancel()
     {
         _isTargeting = false;

@@ -59,6 +59,7 @@ public static class PlayerLoopUtils
         return false;
     }
 
+    /// <summary>Log full player loop hierarchy to console.</summary>
     public static void PrintPlayerLoop(PlayerLoopSystem loop)
     {
         StringBuilder sb = new StringBuilder();

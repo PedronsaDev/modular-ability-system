@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// Draggable representation of an ability; allows assigning abilities to slots via UI drag & drop.
+/// </summary>
 public class DraggableAbilityUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField] private Image _iconImage;
@@ -10,6 +13,7 @@ public class DraggableAbilityUI : MonoBehaviour, IDragHandler, IBeginDragHandler
 
     public static DraggableAbilityUI CurrentlyDraggedAbility;
 
+    /// <summary>Initialize with AbilityData icon.</summary>
     public void Setup(AbilityData abilityData)
     {
         AbilityData = abilityData;
@@ -17,6 +21,7 @@ public class DraggableAbilityUI : MonoBehaviour, IDragHandler, IBeginDragHandler
             _iconImage.sprite = AbilityData.Icon;
     }
 
+    /// <summary>Begin drag: mark current instance and adjust visuals.</summary>
     public void OnBeginDrag(PointerEventData eventData)
     {
         CurrentlyDraggedAbility = this;
@@ -24,6 +29,7 @@ public class DraggableAbilityUI : MonoBehaviour, IDragHandler, IBeginDragHandler
         _iconImage.raycastTarget = false;
     }
 
+    /// <summary>Update icon position following cursor.</summary>
     public void OnDrag(PointerEventData eventData)
     {
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
@@ -36,6 +42,7 @@ public class DraggableAbilityUI : MonoBehaviour, IDragHandler, IBeginDragHandler
         }
     }
 
+    /// <summary>End drag: restore visuals and clear static reference.</summary>
     public void OnEndDrag(PointerEventData eventData)
     {
         _iconImage.raycastTarget = true;

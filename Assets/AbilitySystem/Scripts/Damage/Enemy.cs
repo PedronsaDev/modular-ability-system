@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour, IDamageable
             ShowDamagePopup(amount);
     }
 
+    /// <summary>Spawn a damage popup showing amount delta.</summary>
     private void ShowDamagePopup(float damage)
     {
         GameObject popup = Instantiate(_damagePopupPrefab, transform.position + Vector3.up * 2, Quaternion.identity);
@@ -60,6 +61,7 @@ public class Enemy : MonoBehaviour, IDamageable
         _activeEffects.Remove(effect);
     }
 
+    /// <summary>Handle enemy death: cancels active effects and destroys GameObject.</summary>
     private void Die()
     {
         Debug.Log("Enemy died: " + gameObject.name);

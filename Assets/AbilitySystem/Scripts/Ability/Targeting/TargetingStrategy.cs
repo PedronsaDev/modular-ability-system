@@ -15,5 +15,6 @@ public abstract class TargetingStrategy
     public virtual void Update() { }
     public virtual void Cancel() { }
 
+    /// <summary>Invoke completion event for subscribers (e.g., ability slot cooldown).</summary>
     protected void RaiseTargetingComplete() => OnTargetingCompleted?.Invoke();
 }

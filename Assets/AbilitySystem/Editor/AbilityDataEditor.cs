@@ -37,7 +37,7 @@ public class AbilityDataEditor : Editor
         _castTimeProp = serializedObject.FindProperty("CastTime");
         _cooldownTimeProp = serializedObject.FindProperty("CooldownTime");
         _castAnimProp = serializedObject.FindProperty("CastAnimation");
-        _effectsProp = serializedObject.FindProperty("Effects");
+        _effectsProp = serializedObject.FindProperty("EffectFactories");
         _targetingProp = serializedObject.FindProperty("TargetingStrategy");
 
         _root = new VisualElement();
@@ -304,7 +304,7 @@ public class AbilityDataEditor : Editor
         _effectsListContainer.Clear();
         serializedObject.Update();
 
-        _effectsProp ??= serializedObject.FindProperty("Effects");
+        _effectsProp ??= serializedObject.FindProperty("EffectFactories");
         if (_effectsProp == null)
             return;
 
@@ -402,6 +402,7 @@ public class AbilityDataEditor : Editor
         {
             foreach (var t in types)
             {
+                // remove factory suffix for nicer display
                 var nice = t.Name;
                 menu.AddItem(new GUIContent(nice), false, () => AddEffect(t));
             }
@@ -418,7 +419,7 @@ public class AbilityDataEditor : Editor
         foreach (var t in types)
         {
             var nice = t.Name;
-            menu.AddItem(new GUIContent(nice), false, () => ReplaceEffectAt(index, t));
+            menu.AddItem(new GUIContent(nice), false, () => AddEffect(t));
         }
 
         menu.DropDown(buttonRect);
@@ -429,9 +430,9 @@ public class AbilityDataEditor : Editor
         serializedObject.Update();
         Undo.RecordObject(target, "Add Effect");
 
-        if (_effectsProp == null || !_effectsProp.isArray)
+        if (_effectsProp is not { isArray: true })
         {
-            _effectsProp = serializedObject.FindProperty("Effects");
+            _effectsProp = serializedObject.FindProperty("EffectFactories");
         }
 
         _effectsProp.arraySize++;
@@ -515,7 +516,7 @@ public class AbilityDataEditor : Editor
     private static List<Type> GetEffectTypes()
     {
         // Grab types that implement the closed generic interface <IEffectFactory<IDamageable>>
-        var derived = TypeCache.GetTypesDerivedFrom<IEffect<IDamageable>>();
+        var derived = TypeCache.GetTypesDerivedFrom<IEffectFactory<IDamageable>>();
         return derived.Where(t => !t.IsAbstract && t.IsClass)
             .OrderBy(t => t.Name)
             .ToList();

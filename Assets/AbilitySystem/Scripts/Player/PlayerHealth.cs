@@ -49,6 +49,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         _activeEffects.Remove(effect);
     }
 
+    /// <summary>Handle player death: cancels active effects and destroys GameObject.</summary>
     private void Die()
     {
         if (_isDead)

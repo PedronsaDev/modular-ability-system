@@ -20,9 +20,9 @@ MonoBehaviour:
   CastTime: 0.8
   CooldownTime: 2
   CastAnimation: {fileID: -203655887218126122, guid: acdaeec675315744a86e2e987e0e3f96, type: 3}
-  Effects:
-  - rid: 9056268481472757906
-  - rid: 9056268481472757907
+  EffectFactories:
+  - rid: 9056268550897664131
+  - rid: 9056268550897664132
   TargetingStrategy:
     rid: 9056268481472757904
   references:
@@ -31,18 +31,18 @@ MonoBehaviour:
     - rid: 9056268481472757904
       type: {class: CasterAOETargeting, ns: , asm: Assembly-CSharp}
       data:
-        AbilityEffectPrefab: {fileID: 3432958286849152088, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}
-        EffectOffset: {x: 0, y: 0, z: 0}
         AOERadius: 5
         GroundLayer:
           serializedVersion: 2
           m_Bits: 64
-        _castAnimation: {fileID: 0}
-    - rid: 9056268481472757906
-      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
+        AbilityEffectPrefab: {fileID: 3432958286849152088, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}
+        EffectOffset: {x: 0, y: 0, z: 0}
+        CastAnimation: {fileID: 0}
+    - rid: 9056268550897664131
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        DamageAmount: 25
-    - rid: 9056268481472757907
-      type: {class: KnockbackEffect, ns: , asm: Assembly-CSharp}
+        DamageAmount: 50
+    - rid: 9056268550897664132
+      type: {class: KnockbackEffectFactory, ns: , asm: Assembly-CSharp}
       data:
         Force: 10

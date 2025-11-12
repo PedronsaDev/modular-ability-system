@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.LowLevel;
 using UnityEngine.PlayerLoop;
+using YourNamespace;
 
 internal static class TimerBootstrapper {
 
@@ -33,10 +34,12 @@ internal static class TimerBootstrapper {
 #endif
     }
 
+    /// <summary>Remove previously inserted TimerManager from PlayerLoop.</summary>
     static void RemoveTimerManager<T>(ref PlayerLoopSystem loop) {
         PlayerLoopUtils.RemoveSystem<T>(ref loop, in _timerSystem);
     }
 
+    /// <summary>Insert TimerManager update system under loop phase T at given index.</summary>
     static bool InsertTimerManager<T>(ref PlayerLoopSystem loop, int index) {
         _timerSystem = new PlayerLoopSystem() {
             type = typeof(TimerManager),

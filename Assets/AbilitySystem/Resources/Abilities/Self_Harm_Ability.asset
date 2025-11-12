@@ -20,8 +20,8 @@ MonoBehaviour:
   CastTime: 0
   CooldownTime: 0.5
   CastAnimation: {fileID: 0}
-  Effects:
-  - rid: 9056268481472757895
+  EffectFactories:
+  - rid: 9056268550897664127
   TargetingStrategy:
     rid: 9056268454320144627
   references:
@@ -30,7 +30,7 @@ MonoBehaviour:
     - rid: 9056268454320144627
       type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 9056268481472757895
-      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
+    - rid: 9056268550897664127
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
         DamageAmount: 10

@@ -1,11 +1,14 @@
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using YourNamespace;
 
+/// <summary>
+/// Handles player input to cast abilities: resolves slot from input, runs cast timer, starts targeting.
+/// </summary>
 [RequireComponent(typeof(TargetingManager))]
 public class PlayerAbilityCaster : MonoBehaviour
 {
-    [SerializeField] private Enemy _target;
     [SerializeField] private AbilityData _debugAbility;
 
     private readonly AbilitySlot[] _abilitySlots = new AbilitySlot[10];
@@ -75,9 +78,13 @@ public class PlayerAbilityCaster : MonoBehaviour
         };
     }
 
+    /// <summary>Equip the debug ability into slot 0 (editor helper).</summary>
     [Button]
     public void EquipDebugAbility() => EquipAbility(_debugAbility, 0);
 
+    /// <summary>Equip an ability into a specified slot index.</summary>
+    /// <param name="ability">Ability asset to equip.</param>
+    /// <param name="slot">Slot index (0-based).</param>
     public void EquipAbility(AbilityData ability, int slot)
     {
         if (slot < 0 || slot >= _abilitySlots.Length)
@@ -89,6 +96,7 @@ public class PlayerAbilityCaster : MonoBehaviour
         _abilitySlots[slot].Initialize(ability);
     }
 
+    /// <summary>Starts targeting for the provided slot's ability after cast animation finishes.</summary>
     private void StartTargeting(AbilitySlot slot)
     {
         slot.Ability.Target(_targetingManager, this.gameObject);
@@ -96,6 +104,7 @@ public class PlayerAbilityCaster : MonoBehaviour
         // play casting sfx and vfx if any
     }
 
+    /// <summary>Attempt to execute an ability: validates slot usability then runs its cast timer.</summary>
     private void TryExecute(AbilitySlot slot)
     {
         if (slot == null || !slot.CanUse)

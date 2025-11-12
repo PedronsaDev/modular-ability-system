@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AbilityData", menuName = "ScriptableObjects/AbilityData", order = 1)]
+[CreateAssetMenu(fileName = "Ability_Data", menuName = "Abilities/AbilityData", order = 1)]
 public class AbilityData : ScriptableObject
 {
     [Tooltip("The icon representing the ability in the UI")]
@@ -27,25 +27,29 @@ public class AbilityData : ScriptableObject
     public AnimationClip CastAnimation;
 
     [Header("Effects")]
-    [SerializeReference] public List<IEffect<IDamageable>> Effects;
+    [SerializeReference] public List<IEffectFactory<IDamageable>> EffectFactories;
 
     [Header("Targeting")]
     [SerializeReference] public TargetingStrategy TargetingStrategy;
 
+    /// <summary>Ensures default label and initializes effect factory list.</summary>
     private void OnEnable()
     {
         if (string.IsNullOrEmpty(Label))
             Label = name;
 
-        Effects ??= new List<IEffect<IDamageable>>();
+        EffectFactories ??= new List<IEffectFactory<IDamageable>>();
     }
 
-    public void Execute(GameObject caster ,IDamageable target)
+    public void Execute(GameObject caster, IDamageable target)
     {
         HandleVFX(target);
 
-        foreach (var effect in Effects)
+        foreach (var factory in EffectFactories)
+        {
+            var effect = factory.CreateEffect();
             target.ApplyEffect(caster, effect);
+        }
     }
 
     public void Target(TargetingManager targetingManager, GameObject caster)

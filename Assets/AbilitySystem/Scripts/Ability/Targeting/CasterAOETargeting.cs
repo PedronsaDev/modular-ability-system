@@ -42,7 +42,7 @@ public class CasterAOETargeting : TargetingStrategy
             if (targetMb && targetMb.gameObject == caster)
                 continue;
 
-            Ability.Execute(TargetingManager.gameObject, target);
+            Ability.Execute(caster, target);
         }
 
         Cancel();

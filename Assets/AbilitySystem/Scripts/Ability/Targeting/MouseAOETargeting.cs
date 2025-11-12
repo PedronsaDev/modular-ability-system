@@ -3,6 +3,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Area-of-Effect targeting via mouse position raycast to ground layer. Shows preview, waits for click,
+/// then applies ability to all damageables within radius.
+/// </summary>
 [Serializable]
 public class MouseAOETargeting : TargetingStrategy
 {
@@ -15,6 +19,7 @@ public class MouseAOETargeting : TargetingStrategy
 
     private GameObject _previewAOEInstance;
 
+    /// <summary>Starts AOE targeting: creates preview and subscribes to click input.</summary>
     public override void Start(AbilityData ability, TargetingManager targetingManager, GameObject caster)
     {
         this.Ability = ability;
@@ -34,6 +39,7 @@ public class MouseAOETargeting : TargetingStrategy
         _isTargeting = true;
     }
 
+    /// <summary>Updates preview position under mouse cursor.</summary>
     public override void Update()
     {
         if (!_isTargeting || !_previewAOEInstance)
@@ -56,6 +62,7 @@ public class MouseAOETargeting : TargetingStrategy
         return Vector3.zero;
     }
 
+    /// <summary>Cleans up preview and input subscriptions then raises completion.</summary>
     public override void Cancel()
     {
         _isTargeting = false;

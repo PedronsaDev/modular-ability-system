@@ -20,8 +20,8 @@ MonoBehaviour:
   CastTime: 1
   CooldownTime: 4
   CastAnimation: {fileID: -203655887218126122, guid: 4c1b973723cf0854b9c9981a1d24419b, type: 3}
-  Effects:
-  - rid: 9056268481472757893
+  EffectFactories:
+  - rid: 9056268550897664125
   TargetingStrategy:
     rid: 9056268454320144655
   references:
@@ -32,9 +32,7 @@ MonoBehaviour:
       data:
         ProjectilePrefab: {fileID: 7744441545125806789, guid: 910579916d944f845b3fecfa6cea5a71, type: 3}
         ProjectileSpeed: 20
-    - rid: 9056268481472757893
-      type: {class: DamageEffectOvertime, ns: , asm: Assembly-CSharp}
+    - rid: 9056268550897664125
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        Duration: 3
-        TickInterval: 1
-        DamageAmountPerTick: 20
+        DamageAmount: 50

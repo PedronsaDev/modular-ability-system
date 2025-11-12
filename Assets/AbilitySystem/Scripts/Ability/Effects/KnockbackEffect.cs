@@ -1,13 +1,24 @@
 ﻿using System;
 using UnityEngine;
 
-[Serializable]
-public class KnockbackEffect : IEffect<IDamageable>
+/// <summary>
+/// Runtime instance of a knockback effect
+/// </summary>
+public struct KnockbackEffect : IEffect<IDamageable>
 {
-    public float Force = 5f;
+    private float _force;
 
     public event Action<IEffect<IDamageable>> OnCompleted;
 
+    public KnockbackEffect(float force)
+    {
+        _force = force;
+        OnCompleted = null;
+    }
+
+    /// <summary>Applies an impulse force away from caster toward target.</summary>
+    /// <param name="caster">Origin entity applying knockback.</param>
+    /// <param name="target">Target to receive force.</param>
     public void Apply(GameObject caster, IDamageable target)
     {
         var targetTransform = (target as MonoBehaviour)?.gameObject.transform;
@@ -19,8 +30,8 @@ public class KnockbackEffect : IEffect<IDamageable>
 
         if (targetTransform.TryGetComponent(out Rigidbody rb))
         {
-            rb.AddForce(dir*Force, ForceMode.Impulse);
-            //Debug.Log($"{caster.name} knocks back {targetTransform.name} with force {Force}");
+            rb.AddForce(dir * _force, ForceMode.Impulse);
+            //Debug.Log($"{caster.name} knocks back {targetTransform.name} with force {_force}");
         }
         else
         {
@@ -30,8 +41,24 @@ public class KnockbackEffect : IEffect<IDamageable>
         OnCompleted?.Invoke(this);
     }
 
+    /// <summary>Cancel knockback effect (immediate completion).</summary>
     public void Cancel()
     {
         OnCompleted?.Invoke(this);
+    }
+}
+
+/// <summary>
+/// Factory for creating KnockbackEffect instances
+/// </summary>
+[Serializable]
+public class KnockbackEffectFactory : IEffectFactory<IDamageable>
+{
+    public float Force = 10f;
+
+    /// <summary>Create a new KnockbackEffect instance with configured force.</summary>
+    public IEffect<IDamageable> CreateEffect()
+    {
+        return new KnockbackEffect(Force);
     }
 }

@@ -3,6 +3,10 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
+/// <summary>
+/// Provides one-shot animation playback and movement state blend control for the player.
+/// Uses PlayableGraph for transient animation clips.
+/// </summary>
 public class PlayerAnimationController : MonoBehaviour
 {
     private static readonly int _idle = Animator.StringToHash("Idle");
@@ -20,6 +24,10 @@ public class PlayerAnimationController : MonoBehaviour
         _animationTimer = new CountdownTimer(0f);
     }
 
+    /// <summary>
+    /// Play a single animation clip without affecting the base controller state.
+    /// </summary>
+    /// <param name="clip">The animation clip to play.</param>
     public void PlayOneShot(AnimationClip clip)
     {
         if (!clip || !_animator)
@@ -40,6 +48,10 @@ public class PlayerAnimationController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the animator movement/idle booleans based on state.
+    /// </summary>
+    /// <param name="state">The movement state to set.</param>
     public void SetMovementState(MovementState state)
     {
         if (!_animator) return;
@@ -47,6 +59,11 @@ public class PlayerAnimationController : MonoBehaviour
         _animator.SetBool(_moving, state == MovementState.Moving);
     }
 
+    /// <summary>
+    /// Updates directional blend parameters for movement smoothing.
+    /// </summary>
+    /// <param name="move">The movement vector.</param>
+    /// <param name="dampTime">The damping time for the blend.</param>
     public void SetMoveBlend(Vector2 move, float dampTime = 0.1f)
     {
         if (!_animator) return;

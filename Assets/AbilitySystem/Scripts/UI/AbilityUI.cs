@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using YourNamespace;
 
+/// <summary>
+/// Builds draggable ability inventory from all AbilityData assets and binds ability slots for the player.
+/// </summary>
 public class AbilityUI : MonoBehaviour
 {
     [SerializeField] private List<AbilitySlotUI> _slotUIs;
@@ -31,11 +35,13 @@ public class AbilityUI : MonoBehaviour
         if (Keyboard.current.iKey.wasPressedThisFrame)
             ToggleInventory();
     }
+    /// <summary>Toggle draggable ability inventory visibility (bound to 'I' key).</summary>
     private void ToggleInventory()
     {
         _draggablesParent.gameObject.SetActive(!_draggablesParent.gameObject.activeSelf);
     }
 
+    /// <summary>Bind runtime ability slots to their UI counterparts.</summary>
     public void BindSlots(AbilitySlot[] slots)
     {
         for (int i = 0; i < _slotUIs.Count && i < slots.Length; i++)

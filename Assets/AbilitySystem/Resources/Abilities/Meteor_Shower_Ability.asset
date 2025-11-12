@@ -20,19 +20,13 @@ MonoBehaviour:
   CastTime: 0.1
   CooldownTime: 10
   CastAnimation: {fileID: -203655887218126122, guid: a58448e69d79db748baa24f828263552, type: 3}
-  Effects:
-  - rid: 9056268481472757894
+  EffectFactories:
+  - rid: 9056268550897664126
   TargetingStrategy:
     rid: 9056268481472757905
   references:
     version: 2
     RefIds:
-    - rid: 9056268481472757894
-      type: {class: DamageEffectOvertime, ns: , asm: Assembly-CSharp}
-      data:
-        Duration: 5
-        TickInterval: 1
-        DamageAmountPerTick: 10
     - rid: 9056268481472757905
       type: {class: MouseAOETargeting, ns: , asm: Assembly-CSharp}
       data:
@@ -44,3 +38,9 @@ MonoBehaviour:
           serializedVersion: 2
           m_Bits: 64
         _castAnimation: {fileID: -203655887218126122, guid: 4db20ff94f2ca2f4b84ee1128c80066c, type: 3}
+    - rid: 9056268550897664126
+      type: {class: DamageEffectOvertimeFactory, ns: , asm: Assembly-CSharp}
+      data:
+        Duration: 5
+        TickInterval: 1
+        DamageAmountPerTick: 10

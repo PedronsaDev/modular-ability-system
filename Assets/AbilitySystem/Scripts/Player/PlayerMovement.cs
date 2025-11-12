@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _lookSensitivity = 0.1f;
     [SerializeField] private Transform _cameraAnchor;
+
     [Header("Animation")]
     [SerializeField] private PlayerAnimationController _playerAnimationController;
     [SerializeField] private float _animBlendDamp = 0.1f;
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
         _inputActions = new PlayerInputActions();
         _inputActions.Enable();
+
         if (!_playerAnimationController)
             _playerAnimationController = GetComponentInChildren<PlayerAnimationController>();
     }
@@ -41,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 camForward = _cameraAnchor ? _cameraAnchor.forward : transform.forward;
         Vector3 camRight = _cameraAnchor ? _cameraAnchor.right : transform.right;
+
         camForward.y = 0f;
         camRight.y = 0f;
         camForward = camForward.sqrMagnitude > 0f ? camForward.normalized : Vector3.forward;

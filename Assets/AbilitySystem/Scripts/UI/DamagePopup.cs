@@ -2,6 +2,9 @@ using PrimeTween;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Simple animated popup to display damage/heal numbers using PrimeTween for scale animation.
+/// </summary>
 public class DamagePopup : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -15,6 +18,7 @@ public class DamagePopup : MonoBehaviour
     {
         
     }
+    /// <summary>Configure popup text & play spawn scale animation; schedules destruction.</summary>
     public void SetDamage(float damage)
     {
         this.gameObject.GetComponent<TMP_Text>().SetText(damage.ToString("N0"));
