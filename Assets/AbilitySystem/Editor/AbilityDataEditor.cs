@@ -419,7 +419,7 @@ public class AbilityDataEditor : Editor
         foreach (var t in types)
         {
             var nice = t.Name;
-            menu.AddItem(new GUIContent(nice), false, () => AddEffect(t));
+            menu.AddItem(new GUIContent(nice), false, () => ReplaceEffectAt(index, t));
         }
 
         menu.DropDown(buttonRect);

@@ -29,7 +29,7 @@ This package provides a flexible framework for implementing player abilities: ca
 
 ## Features
 - ScriptableObject-driven ability definitions (`AbilityData`).
-- Pluggable targeting strategies (Self, Mouse AOE, Projectile, Chain).
+- Pluggable targeting strategies (Self, Mouse AOE, Projectile, Chain, Etc...).
 - Runtime effect factories (e.g., Knockback, Heal Over Time) via `IEffectFactory` → `IEffect`.
 - Custom lightweight timer framework integrated into Unity PlayerLoop (no per-timer MonoBehaviours).
 - Drag & drop ability assignment UI with cooldown visualization tween (PrimeTween).
@@ -39,20 +39,19 @@ This package provides a flexible framework for implementing player abilities: ca
 - Easily extendable with new strategies, effects, and UI components.
 
 ## Demo Media
-Add GIFs into `Docs/media/` and they will appear here:
-- Self Cast: ![Self Cast](Docs/media/basic-cast.gif)
-- Mouse AOE: ![Mouse AOE](Docs/media/aoe-target.gif)
-- Projectile: ![Projectile](Docs/media/projectile.gif)
-- Chain Lightning: ![Chain Lightning](Docs/media/chain-targeting.gif)
-- Heal Over Time: ![HoT](Docs/media/heal-overtime.gif)
-- Cooldown Tween: ![Cooldown](Docs/media/cooldown-tween.gif)
+- Custom editor: 
+> ![Editor](Docs/media/editor-inspector.gif)
+- Equipping:
+>![Equipping abilities](Docs/media/equip-abilities.gif)
+- Using and cooldown:
+>![Using abilities and cooldown](Docs/media/using-abilities.gif)
 
 ## Installation
 1. Clone or download the repository.
 2. Open in Unity (2022.3+ recommended; earlier versions may work but not tested).
-3. Ensure required input actions exist (`PlayerInputActions` asset included). If you already have an input setup, wire ability usage to numeric key actions (1–0).
+3. Ensure required input actions exist (`PlayerInputActions` asset included). If you already have an input setup, wire ability usage to numeric key actions (0–9).
 4. Optionally import dependencies (PrimeTween, NaughtyAttributes, TextMeshPro is built-in, others for visuals like CFXR/Toony Colors Pro).
-5. Play the demo scene under `Assets/AbilitySystem/Scenes/` (if provided).
+5. Play the demo scene under `Assets/AbilitySystem/Scenes/Demo`.
 
 ## Quick Start
 1. Create an Ability asset: Right-click in Project → Abilities → AbilityData.
@@ -74,7 +73,6 @@ Add GIFs into `Docs/media/` and they will appear here:
 | IDamageable | Interface for entities that can take damage, heal, and receive effects. |
 | UI Layer | Inventory of abilities + slots with drag & drop and cooldown visuals. |
 
-Reference architecture diagram: ![Architecture](Docs/media/diagram.png)
 See `Docs/architecture.md` for more detail.
 
 ## Creating Abilities
@@ -84,12 +82,14 @@ See `Docs/architecture.md` for more detail.
 4. Save asset. It can now be equipped via UI or code.
 
 ### Example (Code)
+
+> Equipping an ability at runtime:
 ```csharp
 // Equip first slot at runtime
 public class EquipExample : MonoBehaviour {
-  public PlayerAbilityCaster caster;
-  public AbilityData fireballAbility;
-  void Start() { caster.EquipAbility(fireballAbility, 0); }
+  public PlayerAbilityCaster Caster;
+  public AbilityData SomeAbility;
+  void Start() { Caster.EquipAbility(SomeAbility, 0); }
 }
 ```
 
@@ -101,6 +101,41 @@ public class EquipExample : MonoBehaviour {
 
 To add a new strategy, subclass `TargetingStrategy`, implement `Start()`, optionally `Update()`, and call `RaiseTargetingComplete()` when finished.
 
+### Example (Code)
+> Creating a custom targeting strategy:
+> 
+```csharp
+/// <summary>
+/// Executes the ability immediately against the caster if it implements <see cref="IDamageable"/>.
+/// </summary>
+public class SelfTargeting : TargetingStrategy
+{
+    /// <summary>Starts self targeting; applies ability instantly.</summary>
+    public override void Start(AbilityData ability, TargetingManager targetingManager, GameObject caster)
+    {
+        this.Ability = ability;
+        this.TargetingManager = targetingManager;
+
+        if (caster.transform.TryGetComponent<IDamageable>(out var target))
+        {
+            ability.Execute(caster, target);
+        }
+
+        RaiseTargetingComplete();
+    }
+
+    /// <summary>Cancels (no-op for self) ensuring cooldown can begin.</summary>
+    public override void Cancel()
+    {
+        _isTargeting = false;
+
+        RaiseTargetingComplete();
+        TargetingManager.ClearCurrentStrategy();
+    }
+}
+
+```
+
 ## Effects System
 Effects are runtime objects encapsulating state (e.g., remaining ticks). Factories produce new instances per execution.
 - Instant (KnockbackEffect): Immediately applied and completed.
@@ -109,6 +144,51 @@ Lifecycle:
 1. AbilityData iterates factories → CreateEffect()
 2. Target's `ApplyEffect` registers completion and calls `effect.Apply(caster, target)`.
 3. Effect raises `OnCompleted` → target cleans up reference.
+
+### Example (Code)
+> Creating a custom effect factory and runtime effect:
+```csharp
+// <summary>
+/// Runtime instance of a damage effect
+/// </summary>
+public struct SomeEffect : IEffect<IDamageable>
+{
+    private float _data;
+
+    public event Action<IEffect<IDamageable>> OnCompleted;
+
+    public SomeEffect(float data)
+    {
+        _data = data;
+        OnCompleted = null;
+    }
+
+    public void Apply(GameObject caster, IDamageable target)
+    {
+        target.DoSomething(_data);
+        OnCompleted?.Invoke(this);
+    }
+
+    public void Cancel()
+    {
+        OnCompleted?.Invoke(this);
+    }
+}
+
+/// <summary>
+/// Factory for creating DamageEffect instances
+/// </summary>
+[Serializable]
+public class SomeEffectFactory : IEffectFactory<IDamageable>
+{
+    public float Data = 10f;
+
+    public IEffect<IDamageable> CreateEffect()
+    {
+        return new SomeEffect(Data);
+    }
+}
+```
 
 ## Timers Architecture
 `TimerBootstrapper` injects `TimerManager.UpdateTimers` into Unity's PlayerLoop. `Timer` derivatives register/deregister automatically on `Start()`/`Stop()`. This avoids creating one MonoBehaviour per timer and reduces overhead.
@@ -134,13 +214,11 @@ Add new gameplay features by implementing one of:
 - Log output shows damage/heal events (PlayerHealth, Enemy).
 - Use the custom inspector to inspect targeting strategy configuration.
 - Press `I` to toggle ability inventory.
-- Add temporary `Debug.Log` inside strategies to trace targeting flow.
 
 ## Roadmap
 - Object pooling for projectiles and VFX.
 - More built-in effect factories (DamageOverTime, Slow, Shield, ResourceGain).
 - Editor gizmos for targeting areas & chain links.
-- Saving/loading equipped ability layouts.
 - Multiplayer considerations (authoritative server events).
 
 ## Contributing
@@ -155,6 +233,7 @@ Add new gameplay features by implementing one of:
 - CFXR (Cartoon FX Remaster) VFX.
 - Toony Colors Pro / shader & VFX styling by Jean Moreno.
 - KinoBloom (post-processing) by Keijiro Takahashi.
+- Parts of Improved Unity Timers by git-amend.
 
 All respective assets are property of their creators; ensure you have appropriate licenses/imports before using them in production.
 

@@ -1,10 +1,12 @@
 Place GIFs and images illustrating abilities in this folder.
 Suggested files:
 - basic-cast.gif
-- aoe-target.gif
+- mouse-aoe-target.gif
+- self-aoe-target.gif
 - projectile.gif
 - chain-targeting.gif
 - heal-overtime.gif
-- cooldown-tween.gif
-- diagram.png
+- editor-inspector.gif
+- equip-ability.gif
+- cooldown-timer.gif
 
