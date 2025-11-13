@@ -149,7 +149,7 @@ Lifecycle:
 > Creating a custom effect factory and runtime effect:
 ```csharp
 // <summary>
-/// Runtime instance of a damage effect
+/// Runtime instance of a SomeEffect
 /// </summary>
 public struct SomeEffect : IEffect<IDamageable>
 {
@@ -176,7 +176,7 @@ public struct SomeEffect : IEffect<IDamageable>
 }
 
 /// <summary>
-/// Factory for creating DamageEffect instances
+/// Factory for creating SomeEffect instances
 /// </summary>
 [Serializable]
 public class SomeEffectFactory : IEffectFactory<IDamageable>
@@ -233,6 +233,7 @@ Add new gameplay features by implementing one of:
 - CFXR (Cartoon FX Remaster) VFX.
 - Toony Colors Pro / shader & VFX styling by Jean Moreno.
 - KinoBloom (post-processing) by Keijiro Takahashi.
+- Polygon Starter Pack by Synty Studios.
 - Parts of Improved Unity Timers by git-amend.
 
 All respective assets are property of their creators; ensure you have appropriate licenses/imports before using them in production.

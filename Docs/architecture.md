@@ -10,7 +10,7 @@
 - Timers avoid per-MonoBehaviour overhead by central Update loop.
 ## Performance Notes
 
-```
+```mermaid
   ProjectileController --> AD
   TS -->|Execute| AD
   PAC --> UI[AbilityUI / SlotUI]
@@ -21,11 +21,9 @@
   AS --> AD[AbilityData]
   PAC[PlayerAbilityCaster] --> AS[AbilitySlot]
 graph TD
-```mermaid
+```
 Place into README when exported as PNG/SVG:
 ## Mermaid Diagram Stub
-
-Add an image version of this diagram in `./media/diagram.png`.
 
 ```
 ProjectileController --> AbilityData.Execute --> Effects
