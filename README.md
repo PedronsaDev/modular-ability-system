@@ -3,29 +3,29 @@
 A modular, extensible ability system demonstrating clean architecture principles, data-driven design, and decoupled gameplay logic in Unity (C#).
 
 ## Table of Contents
-- Overview
-- Features
-- Demo Media
-- Installation
-- Quick Start
-- Core Concepts
-- Creating Abilities
-- Targeting Strategies
-- Effects System
-- Timers Architecture
-- UI Layer
-- Extensibility
-- Performance Notes
-- Debugging & Development
-- Roadmap
-- Contributing
-- Credits / Assets Used
-- License
+- [Overview](#overview)
+- [Features](#features)
+- [Demo Media](#demo-media)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Core Concepts](#core-concepts)
+- [Creating Abilities](#creating-abilities)
+- [Targeting Strategies](#targeting-strategies)
+- [Effects System](#effects-system)
+- [Timers Architecture](#timers-architecture)
+- [UI Layer](#ui-layer)
+- [Extensibility](#extensibility)
+- [Performance Notes](#performance-notes)
+- [Debugging & Development](#debugging--development)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Credits / Assets Used](#credits--assets-used)
+- [License](#license)
 
 ## Overview
 This package provides a flexible framework for implementing player abilities: casting flows, targeting paradigms (self, area-of-effect, projectile, chained), cooldown management, and runtime effects (instant, over time). It is designed to minimize coupling with scene objects and leverage ScriptableObjects + strategy/factory patterns.
 
-![Placeholder AOE](Docs/media/aoe-target.gif)
+>![Placeholder AOE](Docs/media/aoe-targeting.gif)
 
 ## Features
 - ScriptableObject-driven ability definitions (`AbilityData`).
